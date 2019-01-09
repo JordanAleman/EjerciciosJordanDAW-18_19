@@ -20,6 +20,15 @@ public class Persona {
 		this.longitudPaso=33;
 		
 	}
+	
+	public Persona(String nif, String nombre, int longitudPaso, LocalDate fecha_nac , char sexo) {
+		this.nif = nif;
+		this.nombre = nombre;
+		this.longitudPaso = longitudPaso;
+		this.fecha_nac = null;
+		this.sexo = sexo;
+		
+	}
 
 	public Persona(String nif, String nombre, int longitudPaso, LocalDate fecha_nac , char sexo , Persona[] hijosBiologicos ) {
 		this.nif = nif;

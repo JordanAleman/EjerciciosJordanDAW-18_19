@@ -2,11 +2,16 @@ package control;
 
 
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
+
+import modelo.Estudiante;
+
 //import java.util.Arrays;
 
 import modelo.Persona;
-
-//import modelo.Persona;
 //import java.util.*;
 
 public class Ejercicios {
@@ -705,7 +710,7 @@ public class Ejercicios {
 								
 	
 	// 28 de Noviembre del 2018 -- ACTIVIDAD: Mostrar nombre progenitor sus padres y sus hijos
-	private Persona[] personas; //1.- Declarar en la clase "Ejercicios" un array de persona
+	/*private Persona[] personas; //1.- Declarar en la clase "Ejercicios" un array de persona
 	
 	public void hijosPersona() {
 		for(int i=0; i<personas.length; i++) {
@@ -727,12 +732,86 @@ public class Ejercicios {
 			}
 			System.out.println("");
 		}
-	}
+	}*/
 	
+// ============================================
+// 				2ª Evaluación
+// ============================================
+	
+	// 8 de Enero del 2019 -- Actividad: Crear una lista de personas
+	public void introListaPersona() {
+		ArrayList<Persona> lista;  //Declaración
+		lista = new ArrayList<Persona>();  // Inicialización
+		
+		lista.add(new Persona());
+		lista.add(new Persona("45351504F", "Carlos", 14 , LocalDate.now(), 'M', null));
+		lista.add(new Persona());
+		
+		System.out.println(lista.get(1).getNombre());
+		
+
+	}
+
+	
+// ------------------------------------------------------------------	
+									
+	
+	/* 9 de Enero del 2019 -- Actividad: Crear un mapa
+	 * Declarar un mapa (HashMap) que almacena
+	 * objetos de la clase Estudiante. La clave es Estudiante.nif
+	 	* Inicializar el mapa.
+	 	* Insertar(put) una serie de estudiantes.	 
+	 */
+	public void introMapa() {
+		HashMap<String,Estudiante> mapaPersona = new HashMap<String, Estudiante>();
+		Estudiante estMapa1 = new Estudiante("45667386S", "Pepito", 30, null, 'F');
+		Estudiante estMapa2 = new Estudiante();
+	
+		mapaPersona.put(estMapa1.getNif(),estMapa1);
+		mapaPersona.put(estMapa2.getNif(),estMapa2);
+		mapaPersona.put("45321436M",new Estudiante());
+		
+		System.out.println("Nada");
+		
+		// Recorrer mapa
+		Set<String> clavesMapa = mapaPersona.keySet();
+		
+		for(String claves: clavesMapa) {
+			System.out.println(mapaPersona.get(claves).getNombre());
+		}
+		
+		System.out.println(mapaPersona.size());			
+		
+	}
+
+	
+// ------------------------------------------------------------------	
+										
+		
 	public static void main(String[] args) {
+		// 9 de Enero del 2019 -- Actividad: Crear un mapa
+		new Ejercicios().introMapa();
+		
+	// ------------------------------------------------------------------	
+
+				
+		// 8 de Enero del 2019 -- Actividad: Crear una lista de personas
+		//new Ejercicios().introListaPersona();
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		// ============================================
+		//		 			2ª Evaluación
+		// ============================================
+			
+		
+	// ------------------------------------------------------------------	
+
 		
 		// 28 de Noviembre del 2018 -- ACTIVIDAD: Mostrar nombre progenitor sus padres y sus hijos
-		Persona jordan = new Persona("45678912Z", "Jordan", 40, null, 'M', new Persona[0]);
+		/*Persona jordan = new Persona("45678912Z", "Jordan", 40, null, 'M', new Persona[0]);
 		Persona[] hijo = {jordan};
 		
 		Persona martha = new Persona("43125665B", "Martha", 25, null, 'F', hijo);
@@ -746,8 +825,7 @@ public class Ejercicios {
 		Ejercicios personasHijos = new Ejercicios();
 		Persona[] comprobarHijos = {jordan, martha}; 
 		personasHijos.personas = comprobarHijos;
-		personasHijos.hijosPersona();
-		
+		personasHijos.hijosPersona();*/	
 
 		
 	// ------------------------------------------------------------------	
