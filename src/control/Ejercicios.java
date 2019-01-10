@@ -1,7 +1,6 @@
 package control;
 
-
-
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +14,14 @@ import modelo.Persona;
 //import java.util.*;
 
 public class Ejercicios {
+	
+	// ==================================
+	// 				Método	
+	// ==================================
+	
+	// 1º Prototipo / Cabecera (¿Qué va a hacer?)
+	// 2º Implementación / Cuerpo (¿Cómo se hace?)
+	// 3º Llamada / Invocación del método
 	
 	/* 04 de Octubre del 2018 -- ACTIVIDAD: BUSCAR EN LA API -------------------------------
 						
@@ -786,11 +793,53 @@ public class Ejercicios {
 
 	
 // ------------------------------------------------------------------	
-										
 		
+	
+	// ==========================================================
+	//			Manejar ficheros - 10 de Enero del 2019
+	// ==========================================================
+	
+	/* Algoritmo en mi propio idioma de cómo empezar a manejar ficheros
+	 * <Abrir el Fichero> "Tener en cuenta posibles errores (Fichero no se abre, ya está abierto...)"
+ 	 	* mientras(existan registros / no fin de fichero)
+ 	 		* Evalúa REGISTRO{};
+ 	 		* Leer REGISTRO;	 
+ 		* FIN mientras;
+ 	 * <Cerrar Fichero>
+	 */
+	
+	
+	// 10 de Enero del 2019 -- Actividad: Acceso a un fichero	
+	public void leerFichero(String rutaFichero) {
+		try {
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			
+			while((registro = fichero.readLine()) != null){
+				System.out.println(registro);
+			}
+			
+			fichero.close();
+			System.out.println("Fin de la lectura");
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		
+	}
+	
 	public static void main(String[] args) {
+		
+		// 10 de Enero del 2019 -- Actividad: Acceso a un fichero
+		new Ejercicios().leerFichero("ficheros/datos.txt");
+		
+		
+	// ------------------------------------------------------------------	
+
+		
 		// 9 de Enero del 2019 -- Actividad: Crear un mapa
-		new Ejercicios().introMapa();
+		//new Ejercicios().introMapa();
 		
 	// ------------------------------------------------------------------	
 
