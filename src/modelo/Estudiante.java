@@ -1,6 +1,5 @@
 package modelo;
 
-import java.time.LocalDate;
 
 public class Estudiante extends Persona {
 
@@ -12,7 +11,7 @@ public class Estudiante extends Persona {
 		super();
 	}
 
-	public Estudiante(String nif, String nombre, int longitudPaso, LocalDate fecha_nac, char sexo) {
+	public Estudiante(String nif, String nombre, int longitudPaso, String fecha_nac, char sexo) {
 		super(nif, nombre, longitudPaso, fecha_nac, sexo);
 		
 	}

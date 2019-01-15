@@ -1,8 +1,9 @@
 package control;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -751,7 +752,7 @@ public class Ejercicios {
 		lista = new ArrayList<Persona>();  // Inicialización
 		
 		lista.add(new Persona());
-		lista.add(new Persona("45351504F", "Carlos", 14 , LocalDate.now(), 'M', null));
+		lista.add(new Persona("45351504F", "Carlos", 14 , "", 'M', null));
 		lista.add(new Persona());
 		
 		System.out.println(lista.get(1).getNombre());
@@ -818,7 +819,7 @@ public class Ejercicios {
 			while((registro = fichero.readLine()) != null){
 				System.out.println(registro);
 			}
-			
+
 			fichero.close();
 			System.out.println("Fin de la lectura");
 		} catch (FileNotFoundException e) {
@@ -828,11 +829,78 @@ public class Ejercicios {
 		}
 		
 	}
+
+	
+// ------------------------------------------------------------------	
+			
+		
+	// 15 de Enero del 2019 -- Actividad: Almacenar campos de un fichero en un ArrayList
+	public ArrayList<Persona> creaListaPersonasDesdeFichero (String rutaFichero, String delimitador) {
+		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		try {
+			
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			
+			
+			while((registro = fichero.readLine()) != null){
+				// System.out.println(registro);
+				String[] campos = registro.split(delimitador);
+				listaPersonas.add(new Persona(campos[0],campos[1],Integer.parseInt(campos[2]),campos[3],campos[4].charAt(0)));
+			}
+			
+			fichero.close();
+			System.out.println("Creada la lista de personas");		
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		
+		return listaPersonas;
+	}
+
+	
+// ------------------------------------------------------------------	
+				
+				
+	// 15 de Enero del 2019 -- Actividad: Mostrar nombres ordenados por apellidos de una ficha con personas
+	public void mostrarNombresOrdenadosPorApellidosDeListaPersonasDesdeFichero(String rutaFichero, String delimitador) {
+		ArrayList<Persona> listaPersonas = creaListaPersonasDesdeFichero(rutaFichero, delimitador);
+		
+		Collections.sort(listaPersonas, new Comparator<Persona>() {
+			   public int compare(Persona obj1, Persona obj2) {
+			      return obj1.getNombre().substring(obj1.getNombre().indexOf(" ")).compareTo(obj2.getNombre().substring(obj2.getNombre().indexOf(" ")));
+			   }
+		});
+		
+		for(Persona temp: listaPersonas){
+		    System.out.println(temp.getNombre());
+		}
+	}
 	
 	public static void main(String[] args) {
+		// 15 de Enero del 2019 -- Actividad: Mostrar nombres ordenados por apellidos de una ficha con personas
+		new Ejercicios().mostrarNombresOrdenadosPorApellidosDeListaPersonasDesdeFichero("ficheros/personas.txt", "##");
+		
+	// ------------------------------------------------------------------	
+
+		
+		// 15 de Enero del 2019 -- Actividad: Almacenar campos de un fichero en un ArrayList
+		/*ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		listaPersonas = new Ejercicios().creaListaPersonasDesdeFichero("ficheros/personas.txt", "##");
+		
+		for (int i = 0; i < listaPersonas.size(); i++) {
+			System.out.println(listaPersonas.get(i).getNombre());
+		}*/
+		
+		
+	// ------------------------------------------------------------------	
+
 		
 		// 10 de Enero del 2019 -- Actividad: Acceso a un fichero
-		new Ejercicios().leerFichero("ficheros/datos.txt");
+		//new Ejercicios().leerFichero("ficheros/datos.txt");
 		
 		
 	// ------------------------------------------------------------------	

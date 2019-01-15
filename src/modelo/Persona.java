@@ -7,7 +7,7 @@ public class Persona {
 	private String nif;
 	private String nombre;
 	private int longitudPaso;
-	private LocalDate fecha_nac; // Clase "LocalDate" manejar fechas
+	private String fecha_nac; // Clase "LocalDate" manejar fechas
 	private char sexo; // 'M' 'F'
 	private Persona[] hijosBiologicos;  // 2.- En la clase "Persona" declara un array de "Persona" que representa los hijos biológicos que tiene    28/11/2018
 	private Persona padre;
@@ -16,12 +16,12 @@ public class Persona {
 	public Persona() {
 		this.nif = "12345678F";
 		this.nombre="Anónimo";
-		this.fecha_nac=LocalDate.now();
+		this.fecha_nac=LocalDate.now().toString(); // AAAAMMDD
 		this.longitudPaso=33;
 		
 	}
 	
-	public Persona(String nif, String nombre, int longitudPaso, LocalDate fecha_nac , char sexo) {
+	public Persona(String nif, String nombre, int longitudPaso, String fecha_nac , char sexo) {
 		this.nif = nif;
 		this.nombre = nombre;
 		this.longitudPaso = longitudPaso;
@@ -30,7 +30,7 @@ public class Persona {
 		
 	}
 
-	public Persona(String nif, String nombre, int longitudPaso, LocalDate fecha_nac , char sexo , Persona[] hijosBiologicos ) {
+	public Persona(String nif, String nombre, int longitudPaso, String fecha_nac , char sexo , Persona[] hijosBiologicos ) {
 		this.nif = nif;
 		this.nombre = nombre;
 		this.longitudPaso = longitudPaso;
@@ -59,9 +59,9 @@ public class Persona {
 	public void setLongitudPaso(int longitudPaso) {this.longitudPaso = longitudPaso;}
 	
 
-	public LocalDate getFecha_nac() {return fecha_nac;}
+	public String getFecha_nac() {return fecha_nac;}
 
-	public void setFecha_nac(LocalDate fecha_nac) {this.fecha_nac = fecha_nac;}
+	public void setFecha_nac(String fecha_nac) {this.fecha_nac = fecha_nac;}
 	
 	
 	public char getSexo() {return sexo;}
