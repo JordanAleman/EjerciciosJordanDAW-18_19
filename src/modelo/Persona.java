@@ -21,6 +21,10 @@ public class Persona {
 		
 	}
 	
+	public Persona(String nombre) {
+		this.nombre = nombre;
+	}
+	
 	public Persona(String nif, String nombre, int longitudPaso, String fecha_nac , char sexo) {
 		this.nif = nif;
 		this.nombre = nombre;
@@ -44,6 +48,7 @@ public class Persona {
 		 return numPasos * longitudPaso / 100; 
 	 }
 
+	 
 	public String getNif() {return nif;}
 
 	public void setNif(String nif) {this.nif = nif;}

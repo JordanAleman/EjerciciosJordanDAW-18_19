@@ -871,7 +871,8 @@ public class Ejercicios {
 		
 		Collections.sort(listaPersonas, new Comparator<Persona>() {
 			   public int compare(Persona obj1, Persona obj2) {
-			      return obj1.getNombre().substring(obj1.getNombre().indexOf(" ")).compareTo(obj2.getNombre().substring(obj2.getNombre().indexOf(" ")));
+			      return obj1.getNombre().substring(obj1.getNombre().indexOf(" ")).compareTo(
+			    		  obj2.getNombre().substring(obj2.getNombre().indexOf(" ")));
 			   }
 		});
 		
@@ -882,18 +883,18 @@ public class Ejercicios {
 	
 	public static void main(String[] args) {
 		// 15 de Enero del 2019 -- Actividad: Mostrar nombres ordenados por apellidos de una ficha con personas
-		new Ejercicios().mostrarNombresOrdenadosPorApellidosDeListaPersonasDesdeFichero("ficheros/personas.txt", "##");
+		//new Ejercicios().mostrarNombresOrdenadosPorApellidosDeListaPersonasDesdeFichero("ficheros/personas.txt", "##");
 		
 	// ------------------------------------------------------------------	
 
 		
 		// 15 de Enero del 2019 -- Actividad: Almacenar campos de un fichero en un ArrayList
-		/*ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
 		listaPersonas = new Ejercicios().creaListaPersonasDesdeFichero("ficheros/personas.txt", "##");
 		
 		for (int i = 0; i < listaPersonas.size(); i++) {
 			System.out.println(listaPersonas.get(i).getNombre());
-		}*/
+		}
 		
 		
 	// ------------------------------------------------------------------	
