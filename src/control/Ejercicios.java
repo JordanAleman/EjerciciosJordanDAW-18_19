@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import modelo.Estudiante;
+import modelo.Partido;
 
 //import java.util.Arrays;
 
@@ -882,19 +883,29 @@ public class Ejercicios {
 	}
 	
 	public static void main(String[] args) {
+		
+		HashMap<String,Integer> mapaEquipo = new Partido().comprobarPartidos("ficheros/partidos.txt", "#");
+		
+		
+		
+		
+	// ------------------------------------------------------------------	
+
+		
 		// 15 de Enero del 2019 -- Actividad: Mostrar nombres ordenados por apellidos de una ficha con personas
 		//new Ejercicios().mostrarNombresOrdenadosPorApellidosDeListaPersonasDesdeFichero("ficheros/personas.txt", "##");
+		
 		
 	// ------------------------------------------------------------------	
 
 		
 		// 15 de Enero del 2019 -- Actividad: Almacenar campos de un fichero en un ArrayList
-		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		/*ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
 		listaPersonas = new Ejercicios().creaListaPersonasDesdeFichero("ficheros/personas.txt", "##");
 		
 		for (int i = 0; i < listaPersonas.size(); i++) {
 			System.out.println(listaPersonas.get(i).getNombre());
-		}
+		}*/
 		
 		
 	// ------------------------------------------------------------------	
