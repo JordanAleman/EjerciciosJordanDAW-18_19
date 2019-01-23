@@ -146,4 +146,37 @@ public class Partido {
 		}
 		return null;
 	}
+	
+	public void mostrarNumeroPartidosJugados(String rutaFichero, String delimitador) {
+		try {
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			int contador = 0;
+			
+			while((registro = fichero.readLine()) != null){
+				// Romper la cadena registro
+				String[] campos = registro.split(delimitador);
+				
+				if (campos[3].compareTo("") == 0) {
+					break;
+				}
+				
+				// Opción 2
+				/*if (campos[3].equals("")) {
+					break;
+				}*/
+				
+				contador++;
+				
+			}
+
+			fichero.close();
+
+			System.out.println("Se ha jugado un total de " + contador + " partidos.");
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+	}
 }

@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
+import modelo.Equipo;
 import modelo.Estudiante;
 import modelo.Partido;
 
@@ -884,11 +885,44 @@ public class Ejercicios {
 	
 	public static void main(String[] args) {
 		
-		HashMap<String,Integer> mapaEquipo = new Partido().comprobarPartidos("ficheros/partidos.txt", "#");
+		new Partido().mostrarNumeroPartidosJugados("ficheros/partidos.txt", "#");
 		
 		
+	// ------------------------------------------------------------------	
+
+			
+		//23 de Enero del 2019 -- Actividad: Crear mapa equipos
+		/*HashMap<String,Equipo> mapaEquipos = new Equipo().crearMapaEquipos("ficheros/equipos.txt", "#");
+		
+		Set<String> clavesMapa = mapaEquipos.keySet();
+
+		for(String claves: clavesMapa) {
+			System.out.println("ID: " + mapaEquipos.get(claves).getIdEquipo()
+					+ " Nombre corto: " + mapaEquipos.get(claves).getnombreCorto()
+					+ " Nombre equipo: " + mapaEquipos.get(claves).getNombreEquipo());
+		} 
+		System.exit(0);*/
 		
 		
+	// ------------------------------------------------------------------	
+
+			
+		//23 de Enero del 2019 -- Actividad: Crear lista equipos
+		/*ArrayList<Equipo> equipos = new Equipo().crearListaEquipos("ficheros/equipos.txt", "#");
+		for (int i = 0; i < equipos.size(); i++) {
+			System.out.println("ID: " + equipos.get(i).getIdEquipo()
+					+ " NombreCorto: " + equipos.get(i).getnombreCorto() 
+					+ " NombreEquipo: " + equipos.get(i).getNombreEquipo());
+		}*/
+
+		
+	// ------------------------------------------------------------------	
+
+		
+		// 22 de Enero del 2019 -- Actividad: Comprobar partidos
+		//HashMap<String,Integer> mapaEquipo = new Partido().comprobarPartidos("ficheros/partidos.txt", "#");
+		
+
 	// ------------------------------------------------------------------	
 
 		
