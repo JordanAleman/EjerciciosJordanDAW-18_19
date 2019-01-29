@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -217,7 +218,6 @@ public class Partido {
 		try {
 			HashMap<String,ArrayList<Integer>> mapaResultadosEquipos = new HashMap<String, ArrayList<Integer>>();
 			
-			
 			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
 			String registro;
 			
@@ -230,45 +230,23 @@ public class Partido {
 					for(int i = 2; i<=4; i+=2) {
 						if(!mapaResultadosEquipos.containsKey(campos[i])){
 							// Creamos el ArrayList dentro de este bucle for para que cada ArrayList tenga su único identificador
-							ArrayList<Integer> base = new ArrayList<Integer>();
-							base.add(new Integer(0)); // Victorias
-							base.add(new Integer(0)); // Empates
-							base.add(new Integer(0)); // Derrotas
-							mapaResultadosEquipos.put(campos[i], base);	
+							mapaResultadosEquipos.put(campos[i], new ArrayList<Integer>(Arrays.asList(0,0,0)));	
 						}
 					} 
 				}
 				
 				try {
-					if(Integer.parseInt(campos[3]) > Integer.parseInt(campos[5])) {
-						ArrayList<Integer> equipoLocalVictoria = mapaResultadosEquipos.get(campos[2]);
-						ArrayList<Integer> equipoVisitanteDerrota = mapaResultadosEquipos.get(campos[4]);
+					if(Integer.parseInt(campos[3]) > Integer.parseInt(campos[5])) {	
+						mapaResultadosEquipos.get(campos[2]).set(0, mapaResultadosEquipos.get(campos[2]).get(0)+1); // Victoria para el equipo local
+						mapaResultadosEquipos.get(campos[4]).set(2, mapaResultadosEquipos.get(campos[4]).get(2)+1); // Derrota del equipo visitante
 						
-						equipoLocalVictoria.set(0, equipoLocalVictoria.get(0)+1);
-						equipoVisitanteDerrota.set(2, equipoVisitanteDerrota.get(2)+1);
-						
-						mapaResultadosEquipos.replace(campos[2], equipoLocalVictoria);
-						mapaResultadosEquipos.replace(campos[4], equipoVisitanteDerrota);
-						
-					} else if (Integer.parseInt(campos[3]) < Integer.parseInt(campos[5])) {
-						ArrayList<Integer> equipoLocalDerrota = mapaResultadosEquipos.get(campos[2]);
-						ArrayList<Integer> equipoVisitanteVictoria = mapaResultadosEquipos.get(campos[4]);
-						
-						equipoLocalDerrota.set(2, equipoLocalDerrota.get(2)+1);
-						equipoVisitanteVictoria.set(0, equipoVisitanteVictoria.get(0)+1);
-						
-						mapaResultadosEquipos.replace(campos[2], equipoLocalDerrota);
-						mapaResultadosEquipos.replace(campos[4], equipoVisitanteVictoria);
+					} else if (Integer.parseInt(campos[3]) < Integer.parseInt(campos[5])) {						
+						mapaResultadosEquipos.get(campos[2]).set(2, mapaResultadosEquipos.get(campos[2]).get(2)+1); // Derrota del equipo local
+						mapaResultadosEquipos.get(campos[4]).set(0, mapaResultadosEquipos.get(campos[4]).get(0)+1); // Victoria para el equipo visitante
 						
 					} else if (Integer.parseInt(campos[3]) == Integer.parseInt(campos[5])) {
-						ArrayList<Integer> equipoLocalEmpate = mapaResultadosEquipos.get(campos[2]);
-						ArrayList<Integer> equipoVisitanteEmpate = mapaResultadosEquipos.get(campos[4]);
-						
-						equipoLocalEmpate.set(1, equipoLocalEmpate.get(1)+1);
-						equipoVisitanteEmpate.set(1, equipoVisitanteEmpate.get(1)+1);
-						
-						mapaResultadosEquipos.replace(campos[2], equipoLocalEmpate);
-						mapaResultadosEquipos.replace(campos[4], equipoVisitanteEmpate);
+						mapaResultadosEquipos.get(campos[2]).set(1, mapaResultadosEquipos.get(campos[2]).get(1)+1); // Empate por parte del equipo local
+						mapaResultadosEquipos.get(campos[4]).set(1, mapaResultadosEquipos.get(campos[4]).get(1)+1); // Empate por parte del equipo visitante
 					}
 				} catch (NumberFormatException e) {
 					break;
@@ -276,7 +254,6 @@ public class Partido {
 			}
 
 			fichero.close();
-			
 			
 			/*
 			 * Set<String> clavesMapa = mapaResultadosEquipos.keySet();
@@ -287,8 +264,7 @@ public class Partido {
 			 * mapaResultadosEquipos.get(claves).get(1) + ", D:" +
 			 * mapaResultadosEquipos.get(claves).get(2) + "]"); }
 			 */
-			 
-
+			
 			return mapaResultadosEquipos;
 			
 		} catch (FileNotFoundException e) {
@@ -306,7 +282,6 @@ public class Partido {
 			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
 			String registro;
 			
-			
 			while((registro = fichero.readLine()) != null){
 				// Romper la cadena registro
 				String[] campos = registro.split(delimitador);
@@ -315,26 +290,17 @@ public class Partido {
 				if(!mapaGolesEquipos.containsKey(campos[2]) || !mapaGolesEquipos.containsKey(campos[4])) {
 					for(int i = 2; i<=4; i+=2) {
 						if(!mapaGolesEquipos.containsKey(campos[i])){
-							ArrayList<Integer> base = new ArrayList<Integer>();
-							base.add(new Integer(0)); // Goles marcados
-							base.add(new Integer(0)); // Goles recibidos
-							mapaGolesEquipos.put(campos[i], base);	
+							mapaGolesEquipos.put(campos[i], new ArrayList<Integer>(Arrays.asList(0,0)));		
 						}
 					} 
 				}
 				
 				try {
-					ArrayList<Integer> equipoLocalGoles = mapaGolesEquipos.get(campos[2]);
-					ArrayList<Integer> equipoVisitanteGoles = mapaGolesEquipos.get(campos[4]);
+					mapaGolesEquipos.get(campos[2]).set(0, mapaGolesEquipos.get(campos[2]).get(0)+Integer.parseInt(campos[3])); // Sumamos goles marcados por equipo local
+					mapaGolesEquipos.get(campos[4]).set(0, mapaGolesEquipos.get(campos[4]).get(0)+Integer.parseInt(campos[5])); // Sumamos goles marcados por equipo visitante
 					
-					equipoLocalGoles.set(0, equipoLocalGoles.get(0)+Integer.parseInt(campos[3])); // Sumamos goles marcados
-					equipoLocalGoles.set(1, equipoLocalGoles.get(1)+Integer.parseInt(campos[5])); // Sumamos goles recibidos
-					
-					equipoVisitanteGoles.set(0, equipoVisitanteGoles.get(0)+Integer.parseInt(campos[5])); // Sumamos goles marcados
-					equipoVisitanteGoles.set(1, equipoVisitanteGoles.get(1)+Integer.parseInt(campos[3])); // Sumamos goles recibidos
-					
-					mapaGolesEquipos.replace(campos[2], equipoLocalGoles);
-					mapaGolesEquipos.replace(campos[4], equipoVisitanteGoles);
+					mapaGolesEquipos.get(campos[2]).set(1, mapaGolesEquipos.get(campos[2]).get(1)+Integer.parseInt(campos[5])); // Sumamos goles recibidos por equipo local
+					mapaGolesEquipos.get(campos[4]).set(1, mapaGolesEquipos.get(campos[4]).get(1)+Integer.parseInt(campos[3])); // Sumamos goles recibidos por equipo visitante
 					
 				} catch (NumberFormatException e) {
 					break;
@@ -342,7 +308,6 @@ public class Partido {
 			}
 
 			fichero.close();
-
 			return mapaGolesEquipos;
 			
 		} catch (FileNotFoundException e) {
@@ -352,4 +317,5 @@ public class Partido {
 		}
 		return null;
 	}
+	
 }

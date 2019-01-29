@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Set;
 
 public class Equipo {
 	private int idEquipo;
@@ -98,4 +101,60 @@ public class Equipo {
 		}
 		return null;
 	}
+	
+	public HashMap<String, Integer> clasificacionEquipos(String rutaFichero, String delimitador){
+		HashMap<String, ArrayList<Integer>> resultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
+		HashMap<String, Integer> clasificacionEquipos = new HashMap<String, Integer>();
+		
+		Set<String> clavesMapa = resultadosEquipos.keySet();
+		
+		for(String clave: clavesMapa) {
+			clasificacionEquipos.put(clave, (resultadosEquipos.get(clave).get(0)*3)+resultadosEquipos.get(clave).get(1));
+		}
+		
+		return clasificacionEquipos;
+	}
+	
+	public void muestraResultados(String rutaFichero, String delimitador) {
+		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
+		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
+		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
+		
+		Set<String> clavesMapa = clasificacionEquipos.keySet();
+		
+		System.out.println("El resultado de cada equipo es el siguiente:");
+		for(String clave: clavesMapa) {
+			System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" 
+			 		+ " - [GM:" + mapaGolesEquipos.get(clave).get(0) + ", GR:"
+			 		+ mapaGolesEquipos.get(clave).get(1) + "]"
+			 		+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) + ", E:"
+					+ mapaResultadosEquipos.get(clave).get(1) + ", D:"
+					+ mapaResultadosEquipos.get(clave).get(2) + "]");
+		}
+	}
+	
+	// Pendiente
+	public void muestraResultadosOrdenados(String rutaFichero, String delimitador) {
+		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
+		ArrayList<Integer> clasificacionEquipoOrdenado = new ArrayList<Integer>();
+		
+		Set<String> clavesMapa = clasificacionEquipos.keySet();
+		
+		for(String claves: clavesMapa) {
+			clasificacionEquipoOrdenado.add(clasificacionEquipos.get(claves));
+		}
+		
+		Collections.sort(clasificacionEquipoOrdenado, new Comparator<Integer>() {
+			   public int compare(Integer obj1, Integer obj2) {
+			      return obj2.compareTo(obj1);
+			   }
+		});
+		
+		for(Integer temp: clasificacionEquipoOrdenado){
+		    System.out.println(temp);
+		}
+
+	}
+	
+	
 }

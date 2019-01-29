@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
+import modelo.Equipo;
 //import modelo.Equipo;
 import modelo.Estudiante;
 import modelo.Partido;
@@ -884,11 +885,35 @@ public class Ejercicios {
 	
 	public static void main(String[] args) {
 		
+		// 29 de Enero del 2019 -- Actividad: Mostrar resultado de los equipos con un método
+		new Equipo().muestraResultados("ficheros/partidos.txt", "#");
+		
+
+	// ------------------------------------------------------------------	
+
+			
+		// 29 de Enero del 2019 -- Actividad: Mostrar resultado de los equipos
+		/*HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos("ficheros/partidos.txt", "#");
+		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos("ficheros/partidos.txt", "#");
+		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos("ficheros/partidos.txt", "#");
+		
+		Set<String> clavesMapa = clasificacionEquipos.keySet();
+		
+		System.out.println("El resultado de cada equipo es el siguiente:");
+		for(String claves: clavesMapa) {
+			System.out.println(claves + " [Puntos: " + clasificacionEquipos.get(claves) + "]" 
+			 		+ " - [GM:" + mapaGolesEquipos.get(claves).get(0) + ", GR:"
+			 		+ mapaGolesEquipos.get(claves).get(1) + "]"
+			 		+ " - [V:" + mapaResultadosEquipos.get(claves).get(0) + ", E:"
+					+ mapaResultadosEquipos.get(claves).get(1) + ", D:"
+					+ mapaResultadosEquipos.get(claves).get(2) + "]");
+		}*/
+		
 
 	// ------------------------------------------------------------------	
 
 		
-		//24 de Enero del 2019 -- Actividad: Mostrar goles marcados y recibidos de los equipos
+		// 24 de Enero del 2019 -- Actividad: Mostrar goles marcados y recibidos de los equipos
 		/*HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos("ficheros/partidos.txt", "#");
 		
 		Set<String> clavesMapa = mapaGolesEquipos.keySet();
@@ -904,7 +929,7 @@ public class Ejercicios {
 
 		
 		//24 de Enero del 2019 -- Actividad: Mostrar resultados de los equipos
-		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos("ficheros/partidos.txt", "#");
+		/*HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos("ficheros/partidos.txt", "#");
 		
 		Set<String> clavesMapaResultadosEquipos = mapaResultadosEquipos.keySet();
 		
@@ -913,7 +938,7 @@ public class Ejercicios {
 			System.out.println((claves + ": [V:" + mapaResultadosEquipos.get(claves).get(0)) + ", E:"
 					+ mapaResultadosEquipos.get(claves).get(1) + ", D:"
 					+ mapaResultadosEquipos.get(claves).get(2) + "]");
-		}
+		}*/
 		
 	// ------------------------------------------------------------------	
 
