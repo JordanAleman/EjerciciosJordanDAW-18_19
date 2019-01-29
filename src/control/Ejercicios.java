@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
-import modelo.Equipo;
+//import modelo.Equipo;
 import modelo.Estudiante;
 import modelo.Partido;
 
@@ -382,7 +382,6 @@ public class Ejercicios {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException exception) {   // objeto 'e' o 'ex' excepción es lo mismo
-						// TODO Auto-generated catch block
 						exception.printStackTrace();
 					}
 					System.out.println(h + ":" + m + ":" + s);
@@ -885,7 +884,42 @@ public class Ejercicios {
 	
 	public static void main(String[] args) {
 		
-		new Partido().mostrarNumeroPartidosJugados("ficheros/partidos.txt", "#");
+
+	// ------------------------------------------------------------------	
+
+		
+		//24 de Enero del 2019 -- Actividad: Mostrar goles marcados y recibidos de los equipos
+		/*HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos("ficheros/partidos.txt", "#");
+		
+		Set<String> clavesMapa = mapaGolesEquipos.keySet();
+		
+		System.out.println("Los goles marcados por cada equipo son los siguientes:");
+		for(String claves: clavesMapa) {
+			System.out.println((claves + ": [GM:" + mapaGolesEquipos.get(claves).get(0)) + ", GR:"
+					+ mapaGolesEquipos.get(claves).get(1) + "]");
+		}*/
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		//24 de Enero del 2019 -- Actividad: Mostrar resultados de los equipos
+		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos("ficheros/partidos.txt", "#");
+		
+		Set<String> clavesMapaResultadosEquipos = mapaResultadosEquipos.keySet();
+		
+		System.out.println("El resultado de los equipos es el siguiente:");
+		for(String claves: clavesMapaResultadosEquipos) {
+			System.out.println((claves + ": [V:" + mapaResultadosEquipos.get(claves).get(0)) + ", E:"
+					+ mapaResultadosEquipos.get(claves).get(1) + ", D:"
+					+ mapaResultadosEquipos.get(claves).get(2) + "]");
+		}
+		
+	// ------------------------------------------------------------------	
+
+			
+		//24 de Enero del 2019 -- Actividad: Mostrar número de partidos jugados
+		//new Partido().mostrarNumeroPartidosJugadosTry("ficheros/partidos.txt", "#");
 		
 		
 	// ------------------------------------------------------------------	
