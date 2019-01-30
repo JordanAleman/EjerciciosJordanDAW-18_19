@@ -7,6 +7,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import modelo.Equipo;
 //import modelo.Equipo;
 import modelo.Estudiante;
@@ -883,10 +888,62 @@ public class Ejercicios {
 		}
 	}
 	
+
+// ------------------------------------------------------------------	
+					
+				
+	// 30 de Enero del 2019 -- Actividad: Pruebita de SWING
+	public void pruebaSwing() {
+		JFrame ventana = new JFrame("Mi primer SWING");
+		JButton boton = new JButton("pulsaMe!");
+		JPanel panel = new JPanel();
+//		JComboBox lista = new JComboBox();
+		
+		ventana.add(panel);
+		
+//		ArrayList<Equipo> equipos = new Equipo().crearListaEquipos("ficheros/equipos.txt", "#");
+//		Equipo[] arrayEquipos = equipos.toArray(new Equipo())
+		
+		panel.add(boton);
+		
+		
+		ventana.pack();
+		ventana.setVisible(true);
+	}
+	
 	public static void main(String[] args) {
 		
+		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
+		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
+		
+
+	// ------------------------------------------------------------------	
+
+	
+		// 30 de Enero del 2019 -- Actividad: Muestyra la clasificación ordenada de los equipos
+		/*HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos("ficheros/partidos.txt", "#");
+		clasificacionEquipos = Equipo.clasificacionOrdenada(clasificacionEquipos);
+		
+		Set<String> clavesMapa = clasificacionEquipos.keySet();
+
+		System.out.println("La clasificación de los equipos es la siguientes");
+		for (String claves : clavesMapa) {
+			System.out.println(claves + " [Puntos: " + clasificacionEquipos.get(claves) + "]");
+		}*/
+			
+
+	// ------------------------------------------------------------------	
+
+		
+		// 30 de Enero del 2019 -- Actividad: Pruebita de SWING
+		//new Ejercicios().pruebaSwing();
+		
+
+	// ------------------------------------------------------------------	
+
+		
 		// 29 de Enero del 2019 -- Actividad: Mostrar resultado de los equipos con un método
-		new Equipo().muestraResultados("ficheros/partidos.txt", "#");
+		//new Equipo().muestraResultados("ficheros/partidos.txt", "#");
 		
 
 	// ------------------------------------------------------------------	

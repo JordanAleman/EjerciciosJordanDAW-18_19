@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class Equipo {
 	private int idEquipo;
@@ -132,29 +129,41 @@ public class Equipo {
 					+ mapaResultadosEquipos.get(clave).get(2) + "]");
 		}
 	}
+
 	
-	// Pendiente
+	public static HashMap<String, Integer> clasificacionOrdenada(HashMap<String, Integer> map) {
+		List<Entry<String, Integer>> list = new LinkedList<>(map.entrySet());
+		// Defined Custom Comparator here
+		Collections.sort(list, new Comparator<Entry<String, Integer>>() {
+			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
+				return o2.getValue().compareTo(o1.getValue());
+			}
+		});
+
+		HashMap<String, Integer> sortedHashMap = new LinkedHashMap<String, Integer>();
+		for (Iterator<Entry<String, Integer>> it = list.iterator(); it.hasNext();) {
+			Map.Entry<String, Integer> entry = (Map.Entry<String, Integer>) it.next();
+			sortedHashMap.put(entry.getKey(), entry.getValue());
+		}
+		return sortedHashMap;
+	}
+	
 	public void muestraResultadosOrdenados(String rutaFichero, String delimitador) {
 		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
-		ArrayList<Integer> clasificacionEquipoOrdenado = new ArrayList<Integer>();
+		clasificacionEquipos = clasificacionOrdenada(clasificacionEquipos);
+		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
+		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
 		
 		Set<String> clavesMapa = clasificacionEquipos.keySet();
 		
-		for(String claves: clavesMapa) {
-			clasificacionEquipoOrdenado.add(clasificacionEquipos.get(claves));
+		System.out.println("El resultado de cada equipo es el siguiente:");
+		for(String clave: clavesMapa) {
+			System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" 
+			 		+ " - [GM:" + mapaGolesEquipos.get(clave).get(0) + ", GR:"
+			 		+ mapaGolesEquipos.get(clave).get(1) + "]"
+			 		+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) + ", E:"
+					+ mapaResultadosEquipos.get(clave).get(1) + ", D:"
+					+ mapaResultadosEquipos.get(clave).get(2) + "]");
 		}
-		
-		Collections.sort(clasificacionEquipoOrdenado, new Comparator<Integer>() {
-			   public int compare(Integer obj1, Integer obj2) {
-			      return obj2.compareTo(obj1);
-			   }
-		});
-		
-		for(Integer temp: clasificacionEquipoOrdenado){
-		    System.out.println(temp);
-		}
-
 	}
-	
-	
 }
