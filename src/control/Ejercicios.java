@@ -897,25 +897,63 @@ public class Ejercicios {
 		JFrame ventana = new JFrame("Mi primer SWING");
 		JButton boton = new JButton("pulsaMe!");
 		JPanel panel = new JPanel();
-//		JComboBox lista = new JComboBox();
 		
 		ventana.add(panel);
 		
-//		ArrayList<Equipo> equipos = new Equipo().crearListaEquipos("ficheros/equipos.txt", "#");
-//		Equipo[] arrayEquipos = equipos.toArray(new Equipo())
+		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos("ficheros/partidos.txt", "#");
+		clasificacionEquipos = Equipo.clasificacionOrdenada(clasificacionEquipos);
+
+		ArrayList<Equipo> equipos = new ArrayList<Equipo>();
+		equipos = obtenerListaEquipoOrdenados(clasificacionEquipos, equipos);
+
+		Equipo[] arrayEquipos = equipos.toArray(new Equipo[equipos.size()]);
 		
+		JComboBox<Equipo> lista = new JComboBox<Equipo>(arrayEquipos);
+
+		panel.add(lista);
 		panel.add(boton);
-		
-		
+
 		ventana.pack();
 		ventana.setVisible(true);
+	}
+	
+	static ArrayList<Equipo> obtenerListaEquipoOrdenados(HashMap<String, Integer> mapaOrdenado, ArrayList<Equipo> equipos) {
+		try {
+			BufferedReader fichero = new BufferedReader(new FileReader("ficheros/equipos.txt"));
+			String registro;
+
+			while ((registro = fichero.readLine()) != null) {
+				// Romper la cadena registro
+				String[] campos = registro.split("#");
+
+				if (mapaOrdenado.size() > 0) {
+					String comparar = (String) mapaOrdenado.keySet().toArray()[0];
+					if (campos[1].compareTo(comparar) == 0) {
+						// Incluir cada elemento del array como elementos del ArrayList de Equipo
+						equipos.add(new Equipo(Integer.parseInt(campos[0]), campos[1], campos[2]));
+						mapaOrdenado.remove(mapaOrdenado.keySet().toArray()[0]);
+						obtenerListaEquipoOrdenados(mapaOrdenado, equipos);
+					}
+
+				}
+			}
+
+			fichero.close();
+			return equipos;
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		return null;
 	}
 	
 	public static void main(String[] args) {
 		
 		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
 		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
-		
+
 
 	// ------------------------------------------------------------------	
 
@@ -936,7 +974,7 @@ public class Ejercicios {
 
 		
 		// 30 de Enero del 2019 -- Actividad: Pruebita de SWING
-		//new Ejercicios().pruebaSwing();
+		new Ejercicios().pruebaSwing();
 		
 
 	// ------------------------------------------------------------------	

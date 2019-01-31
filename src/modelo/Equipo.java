@@ -103,9 +103,9 @@ public class Equipo {
 		HashMap<String, ArrayList<Integer>> resultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
 		HashMap<String, Integer> clasificacionEquipos = new HashMap<String, Integer>();
 		
-		Set<String> clavesMapa = resultadosEquipos.keySet();
+		//Set<String> clavesMapa = resultadosEquipos.keySet();
 		
-		for(String clave: clavesMapa) {
+		for(String clave: resultadosEquipos.keySet()) {
 			clasificacionEquipos.put(clave, (resultadosEquipos.get(clave).get(0)*3)+resultadosEquipos.get(clave).get(1));
 		}
 		
@@ -166,4 +166,23 @@ public class Equipo {
 					+ mapaResultadosEquipos.get(clave).get(2) + "]");
 		}
 	}
+	
+	public String toString(String rutaFichero, String delimitador, String nombreCorto) {
+		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
+		//clasificacionEquipos = clasificacionOrdenada(clasificacionEquipos);
+		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
+		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
+
+		return	nombreCorto + " [Puntos: " + clasificacionEquipos.get(nombreCorto) + "]" 
+			 		+ " - [GM:" + mapaGolesEquipos.get(nombreCorto).get(0) + ", GR:"
+			 		+ mapaGolesEquipos.get(nombreCorto).get(1) + "]"
+			 		+ " - [V:" + mapaResultadosEquipos.get(nombreCorto).get(0) + ", E:"
+					+ mapaResultadosEquipos.get(nombreCorto).get(1) + ", D:"
+					+ mapaResultadosEquipos.get(nombreCorto).get(2) + "]";
+	}
+	
+	public String toString() {
+		return toString("ficheros/partidos.txt","#", this.getnombreCorto());
+	}
+
 }
