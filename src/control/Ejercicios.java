@@ -1,5 +1,7 @@
 package control;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -912,12 +914,21 @@ public class Ejercicios {
 
 		panel.add(lista);
 		panel.add(boton);
+		
+		boton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(arrayEquipos[0]);
+				
+			}
+		});
 
 		ventana.pack();
 		ventana.setVisible(true);
 	}
 	
-	static ArrayList<Equipo> obtenerListaEquipoOrdenados(HashMap<String, Integer> mapaOrdenado, ArrayList<Equipo> equipos) {
+	private static ArrayList<Equipo> obtenerListaEquipoOrdenados(HashMap<String, Integer> mapaOrdenado, ArrayList<Equipo> equipos) {
 		try {
 			BufferedReader fichero = new BufferedReader(new FileReader("ficheros/equipos.txt"));
 			String registro;
@@ -950,6 +961,16 @@ public class Ejercicios {
 	}
 	
 	public static void main(String[] args) {
+
+		// 5 de Febrero del 2019 -- Actividad: Mostrar lista de equipo ordenado
+
+		new Equipo().mostrarNombresEquiposOrdenados("ficheros/equipos.txt", "#");
+		
+
+	// ------------------------------------------------------------------	
+
+		
+		
 		
 		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
 		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
@@ -974,7 +995,7 @@ public class Ejercicios {
 
 		
 		// 30 de Enero del 2019 -- Actividad: Pruebita de SWING
-		new Ejercicios().pruebaSwing();
+		//new Ejercicios().pruebaSwing();
 		
 
 	// ------------------------------------------------------------------	

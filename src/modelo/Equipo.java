@@ -148,6 +148,7 @@ public class Equipo {
 		return sortedHashMap;
 	}
 	
+	
 	public void muestraResultadosOrdenados(String rutaFichero, String delimitador) {
 		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
 		clasificacionEquipos = clasificacionOrdenada(clasificacionEquipos);
@@ -183,6 +184,21 @@ public class Equipo {
 	
 	public String toString() {
 		return toString("ficheros/partidos.txt","#", this.getnombreCorto());
+	}
+	
+	// Obtener un ArrayList ordenado por el nombre largo de equipos a partir del fichero equipos.txt
+	public void mostrarNombresEquiposOrdenados(String rutaFichero, String delimitador) {
+		ArrayList<Equipo> listaEquipos = crearListaEquipos(rutaFichero, delimitador);
+		
+		Collections.sort(listaEquipos, new Comparator<Equipo>() {
+			   public int compare(Equipo obj1, Equipo obj2) {
+			      return obj1.getNombreEquipo().compareTo(obj2.getNombreEquipo());
+			   }
+		});
+		
+		for(Equipo temp: listaEquipos){
+		    System.out.println(temp.getNombreEquipo());
+		}
 	}
 
 }
