@@ -964,7 +964,7 @@ public class Ejercicios {
 
 		// 5 de Febrero del 2019 -- Actividad: Mostrar lista de equipo ordenado
 
-		new Equipo().mostrarNombresEquiposOrdenados("ficheros/equipos.txt", "#");
+		//new Equipo().mostrarNombresEquiposOrdenados("ficheros/equipos.txt", "#");
 		
 
 	// ------------------------------------------------------------------	

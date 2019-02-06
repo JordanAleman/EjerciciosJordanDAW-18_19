@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class Equipo {
+public class Equipo implements Comparable<Equipo>{
 	private int idEquipo;
 	private String nombreCorto;
 	private String nombreEquipo;
@@ -122,7 +122,7 @@ public class Equipo {
 		System.out.println("El resultado de cada equipo es el siguiente:");
 		for(String clave: clavesMapa) {
 			System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" 
-			 		+ " - [GM:" + mapaGolesEquipos.get(clave).get(0) + ", GR:"
+			 		+ " - [GF:" + mapaGolesEquipos.get(clave).get(0) + ", GC:"
 			 		+ mapaGolesEquipos.get(clave).get(1) + "]"
 			 		+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) + ", E:"
 					+ mapaResultadosEquipos.get(clave).get(1) + ", D:"
@@ -132,20 +132,20 @@ public class Equipo {
 
 	
 	public static HashMap<String, Integer> clasificacionOrdenada(HashMap<String, Integer> map) {
-		List<Entry<String, Integer>> list = new LinkedList<>(map.entrySet());
+		List<Entry<String, Integer>> listaOrdenada = new LinkedList<>(map.entrySet());
 		// Defined Custom Comparator here
-		Collections.sort(list, new Comparator<Entry<String, Integer>>() {
+		listaOrdenada.sort(new Comparator<Entry<String, Integer>>() {
 			public int compare(Entry<String, Integer> o1, Entry<String, Integer> o2) {
 				return o2.getValue().compareTo(o1.getValue());
 			}
 		});
 
-		HashMap<String, Integer> sortedHashMap = new LinkedHashMap<String, Integer>();
-		for (Iterator<Entry<String, Integer>> it = list.iterator(); it.hasNext();) {
+		HashMap<String, Integer> mapaOrdenado = new LinkedHashMap<String, Integer>();
+		for (Iterator<Entry<String, Integer>> it = listaOrdenada.iterator(); it.hasNext();) {
 			Map.Entry<String, Integer> entry = (Map.Entry<String, Integer>) it.next();
-			sortedHashMap.put(entry.getKey(), entry.getValue());
+			mapaOrdenado.put(entry.getKey(), entry.getValue());
 		}
-		return sortedHashMap;
+		return mapaOrdenado;
 	}
 	
 	
@@ -160,7 +160,7 @@ public class Equipo {
 		System.out.println("El resultado de cada equipo es el siguiente:");
 		for(String clave: clavesMapa) {
 			System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" 
-			 		+ " - [GM:" + mapaGolesEquipos.get(clave).get(0) + ", GR:"
+			 		+ " - [GF:" + mapaGolesEquipos.get(clave).get(0) + ", GC:"
 			 		+ mapaGolesEquipos.get(clave).get(1) + "]"
 			 		+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) + ", E:"
 					+ mapaResultadosEquipos.get(clave).get(1) + ", D:"
@@ -175,7 +175,7 @@ public class Equipo {
 		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
 
 		return	nombreCorto + " [Puntos: " + clasificacionEquipos.get(nombreCorto) + "]" 
-			 		+ " - [GM:" + mapaGolesEquipos.get(nombreCorto).get(0) + ", GR:"
+			 		+ " - [GF:" + mapaGolesEquipos.get(nombreCorto).get(0) + ", GC:"
 			 		+ mapaGolesEquipos.get(nombreCorto).get(1) + "]"
 			 		+ " - [V:" + mapaResultadosEquipos.get(nombreCorto).get(0) + ", E:"
 					+ mapaResultadosEquipos.get(nombreCorto).get(1) + ", D:"
@@ -190,15 +190,31 @@ public class Equipo {
 	public void mostrarNombresEquiposOrdenados(String rutaFichero, String delimitador) {
 		ArrayList<Equipo> listaEquipos = crearListaEquipos(rutaFichero, delimitador);
 		
-		Collections.sort(listaEquipos, new Comparator<Equipo>() {
+		listaEquipos.sort(new Comparator<Equipo>() {
 			   public int compare(Equipo obj1, Equipo obj2) {
-			      return obj1.getNombreEquipo().compareTo(obj2.getNombreEquipo());
+				   if(obj2.getIdEquipo()>obj1.getIdEquipo()) {
+					   return 1;
+				   } else if(obj2.getIdEquipo()<obj1.getIdEquipo()) {
+					   return -1;
+				   } else if(obj2.getIdEquipo()==obj1.getIdEquipo()) {
+					   return 0;
+				   }
+				return idEquipo;
+				   //return Integer.toString(obj2.getIdEquipo()).compareTo(Integer.toString(obj1.getIdEquipo()));
+			      
 			   }
 		});
 		
 		for(Equipo temp: listaEquipos){
-		    System.out.println(temp.getNombreEquipo());
+		    System.out.println(temp.getIdEquipo() + ": " + temp.getNombreEquipo());
 		}
+		System.out.println("");
+	}
+
+	@Override
+	public int compareTo(Equipo arg0) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
