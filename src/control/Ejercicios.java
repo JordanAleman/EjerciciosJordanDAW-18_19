@@ -1,5 +1,6 @@
 package control;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -898,6 +899,8 @@ public class Ejercicios {
 		JButton boton = new JButton("pulsaMe!");
 		JPanel panel = new JPanel();
 		
+        panel.setBackground(Color.blue);
+
 		ventana.add(panel);
 		
 		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos("ficheros/partidos.txt", "#");
@@ -959,33 +962,50 @@ public class Ejercicios {
 	}
 	
 	public void tablaClasificacion() {
-		 DefaultTableModel model = new DefaultTableModel();// definimos el objeto tableModel
-		 JTable clasificacionLiga = new JTable();// creamos la instancia de la tabla
-		 clasificacionLiga.setModel(model);
-		 model.addColumn("Nombre");
-		 model.addColumn("Puntos");
-		 model.addColumn("GF");
-		 model.addColumn("GC");
-		 model.addColumn("V");
-		 model.addColumn("E");
-		 model.addColumn("D");
+		JFrame ventana = new JFrame("Mi primer SWING");
+		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		  
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.black);
+		ventana.add(panel, "North");
 
-		 clasificacionLiga.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		 clasificacionLiga.getTableHeader().setReorderingAllowed(false);
+	  
+	       
+		
+		
+		DefaultTableModel modelo = new DefaultTableModel();// definimos el objeto tableModel
+		JTable clasificacionLiga = new JTable();// creamos la instancia de la tabla
+		clasificacionLiga.setModel(modelo);
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Puntos");
+		modelo.addColumn("GF");
+		modelo.addColumn("GC");
+		modelo.addColumn("V");
+		modelo.addColumn("E");
+		modelo.addColumn("D");
 
-		 HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt", "#");
-		 /**
-		  * enviamos el objeto TableModel, como mandamos el objeto podemos
-		  * manipularlo desde el metodo
-		  */
-//		 miPersonaDao2.buscarUsuariosConTableModel(model);
-//		 miBarra2.setViewportView(miTabla2);
+		clasificacionLiga.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		clasificacionLiga.getTableHeader().setReorderingAllowed(false);
+		
+
+		
+		
+
+		HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt","#");
+		
+		String[] nuevo = new String[]{"0"};
+		modelo.addRow(nuevo);
+
+		ventana.pack();
+		ventana.setVisible(true);
 	}
+	
+	
 	
 	public static void main(String[] args) {
 		
 		// 7 de Febrero del 2019 -- Actividad: Mostrar tabla de clasificación de liga de Fútbol
-		//new Ejercicios().tablaClasificacion();
+		new Ejercicios().tablaClasificacion();
 		
 
 	// ------------------------------------------------------------------	
@@ -1016,7 +1036,7 @@ public class Ejercicios {
 
 		
 		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
-		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
+		//new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
 
 
 	// ------------------------------------------------------------------	
