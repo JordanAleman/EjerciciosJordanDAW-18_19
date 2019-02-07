@@ -971,18 +971,18 @@ public class Ejercicios {
 
 	  
 	       
-		
+		String[] nuevo = new String[]{"Nombre","Puntos","GF","GC","V","E","D"};
 		
 		DefaultTableModel modelo = new DefaultTableModel();// definimos el objeto tableModel
 		JTable clasificacionLiga = new JTable();// creamos la instancia de la tabla
 		clasificacionLiga.setModel(modelo);
-		modelo.addColumn("Nombre");
-		modelo.addColumn("Puntos");
-		modelo.addColumn("GF");
-		modelo.addColumn("GC");
-		modelo.addColumn("V");
-		modelo.addColumn("E");
-		modelo.addColumn("D");
+		modelo.addColumn("Clasificacion",new String[] {"Nombre"});
+		modelo.addColumn("Clasificacion",new String[] {"Puntos"});
+		modelo.addColumn("Clasificacion",new String[] {"GF"});
+		modelo.addColumn("Clasificacion",new String[] {"GC"});
+		modelo.addColumn("Clasificacion",new String[] {"V"});
+		modelo.addColumn("Clasificacion",new String[] {"E"});
+		modelo.addColumn("Clasificacion",new String[] {"D"});
 
 		clasificacionLiga.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		clasificacionLiga.getTableHeader().setReorderingAllowed(false);
@@ -993,9 +993,10 @@ public class Ejercicios {
 
 		HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt","#");
 		
-		String[] nuevo = new String[]{"0"};
-		modelo.addRow(nuevo);
+		//modelo.addRow(clasificacionTotal.get("BCN"));
 
+
+		panel.add(clasificacionLiga);
 		ventana.pack();
 		ventana.setVisible(true);
 	}
@@ -1005,7 +1006,7 @@ public class Ejercicios {
 	public static void main(String[] args) {
 		
 		// 7 de Febrero del 2019 -- Actividad: Mostrar tabla de clasificación de liga de Fútbol
-		new Ejercicios().tablaClasificacion();
+		//new Ejercicios().tablaClasificacion();
 		
 
 	// ------------------------------------------------------------------	
@@ -1036,7 +1037,7 @@ public class Ejercicios {
 
 		
 		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
-		//new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
+		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
 
 
 	// ------------------------------------------------------------------	
