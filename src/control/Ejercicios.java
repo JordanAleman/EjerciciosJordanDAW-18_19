@@ -9,10 +9,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import modelo.Equipo;
 //import modelo.Equipo;
@@ -960,8 +958,55 @@ public class Ejercicios {
 		return null;
 	}
 	
-	public static void main(String[] args) {
+	public void tablaClasificacion() {
+		 DefaultTableModel model = new DefaultTableModel();// definimos el objeto tableModel
+		 JTable clasificacionLiga = new JTable();// creamos la instancia de la tabla
+		 clasificacionLiga.setModel(model);
+		 model.addColumn("Nombre");
+		 model.addColumn("Puntos");
+		 model.addColumn("GF");
+		 model.addColumn("GC");
+		 model.addColumn("V");
+		 model.addColumn("E");
+		 model.addColumn("D");
 
+		 clasificacionLiga.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		 clasificacionLiga.getTableHeader().setReorderingAllowed(false);
+
+		 HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt", "#");
+		 /**
+		  * enviamos el objeto TableModel, como mandamos el objeto podemos
+		  * manipularlo desde el metodo
+		  */
+//		 miPersonaDao2.buscarUsuariosConTableModel(model);
+//		 miBarra2.setViewportView(miTabla2);
+	}
+	
+	public static void main(String[] args) {
+		
+		// 7 de Febrero del 2019 -- Actividad: Mostrar tabla de clasificación de liga de Fútbol
+		//new Ejercicios().tablaClasificacion();
+		
+
+	// ------------------------------------------------------------------	
+
+		
+		// 7 de Febrero del 2019 -- Actividad: Mostrar clasificación total
+		/*HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt", "#");
+		
+		Set<String> clavesMapa = clasificacionTotal.keySet();
+		
+		for(String clave: clavesMapa) {
+			System.out.println(clasificacionTotal.get(clave).get(0)
+					+ " Puntos:" + clasificacionTotal.get(clave).get(1)
+					);
+		}*/
+				
+		
+
+	// ------------------------------------------------------------------	
+
+		
 		// 5 de Febrero del 2019 -- Actividad: Mostrar lista de equipo ordenado
 
 		//new Equipo().mostrarNombresEquiposOrdenados("ficheros/equipos.txt", "#");
@@ -969,8 +1014,6 @@ public class Ejercicios {
 
 	// ------------------------------------------------------------------	
 
-		
-		
 		
 		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
 		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");

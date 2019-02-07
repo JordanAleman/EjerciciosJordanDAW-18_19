@@ -155,26 +155,33 @@ public class Equipo implements Comparable<Equipo>{
 		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
 		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
 		
-		Set<String> clavesMapa = clasificacionEquipos.keySet();
+		ArrayList<Equipo> nombreEquipo = crearListaEquipos("ficheros/equipos.txt","#");
 		
+		Set<String> clavesMapa = clasificacionEquipos.keySet();
+
 		System.out.println("El resultado de cada equipo es el siguiente:");
-		for(String clave: clavesMapa) {
-			System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" 
-			 		+ " - [GF:" + mapaGolesEquipos.get(clave).get(0) + ", GC:"
-			 		+ mapaGolesEquipos.get(clave).get(1) + "]"
-			 		+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) + ", E:"
-					+ mapaResultadosEquipos.get(clave).get(1) + ", D:"
-					+ mapaResultadosEquipos.get(clave).get(2) + "]");
+		for (String clave : clavesMapa) {
+			for (int i = 0; i < nombreEquipo.size(); i++) {
+				if (clave.compareTo(nombreEquipo.get(i).getnombreCorto()) == 0) {
+					System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" + " - [GF:"
+							+ mapaGolesEquipos.get(clave).get(0) + ", GC:" + mapaGolesEquipos.get(clave).get(1) + "]"
+							+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) 
+							+ ", E:" + mapaResultadosEquipos.get(clave).get(1) 
+							+ ", D:" + mapaResultadosEquipos.get(clave).get(2)
+							+ "] Nombre completo: " + nombreEquipo.get(i).getNombreEquipo());
+							
+				}
+			}
 		}
 	}
-	
+
 	public String toString(String rutaFichero, String delimitador, String nombreCorto) {
 		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
 		//clasificacionEquipos = clasificacionOrdenada(clasificacionEquipos);
 		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
 		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
 
-		return	nombreCorto + " [Puntos: " + clasificacionEquipos.get(nombreCorto) + "]" 
+		return	nombreEquipo + " [Puntos: " + clasificacionEquipos.get(nombreCorto) + "]" 
 			 		+ " - [GF:" + mapaGolesEquipos.get(nombreCorto).get(0) + ", GC:"
 			 		+ mapaGolesEquipos.get(nombreCorto).get(1) + "]"
 			 		+ " - [V:" + mapaResultadosEquipos.get(nombreCorto).get(0) + ", E:"
@@ -209,6 +216,51 @@ public class Equipo implements Comparable<Equipo>{
 		    System.out.println(temp.getIdEquipo() + ": " + temp.getNombreEquipo());
 		}
 		System.out.println("");
+	}
+	
+	public HashMap<String, ArrayList<String>> claficacionTotal(String rutaFichero, String delimitador){
+		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
+		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
+		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
+		
+		ArrayList<Equipo> nombreEquipo = crearListaEquipos("ficheros/equipos.txt","#");
+		
+		HashMap<String, ArrayList<String>> clasificacionTotal = new HashMap<String, ArrayList<String>>();
+		
+		Set<String> clavesMapa = clasificacionEquipos.keySet();
+
+		for (String clave : clavesMapa) {
+			for (int i = 0; i < nombreEquipo.size(); i++) {
+				if (clave.compareTo(nombreEquipo.get(i).getnombreCorto()) == 0) {
+					clasificacionTotal.put(clave, new ArrayList<String>(Arrays.asList(
+							nombreEquipo.get(i).getNombreEquipo()
+							,Integer.toString(clasificacionEquipos.get(clave))
+							,Integer.toString(mapaResultadosEquipos.get(clave).get(0))
+							,Integer.toString(mapaResultadosEquipos.get(clave).get(1)) 
+							,Integer.toString(mapaResultadosEquipos.get(clave).get(2))
+							,Integer.toString(mapaGolesEquipos.get(clave).get(0))
+							,Integer.toString(mapaGolesEquipos.get(clave).get(1))
+							)));
+				}
+					
+			}
+		}
+		
+		List<Entry<String, ArrayList<String>>> listaOrdenada = new LinkedList<>(clasificacionTotal.entrySet());
+		// Defined Custom Comparator here
+		listaOrdenada.sort(new Comparator<Entry<String, ArrayList<String>>>() {
+			public int compare(Entry<String, ArrayList<String>> o1, Entry<String, ArrayList<String>> o2) {
+				return o2.getValue().get(1).compareTo(o1.getValue().get(1));
+			}
+		});
+
+		clasificacionTotal = new LinkedHashMap<String, ArrayList<String>>();
+		for (Iterator<Entry<String, ArrayList<String>>> it = listaOrdenada.iterator(); it.hasNext();) {
+			Map.Entry<String, ArrayList<String>> entry = (Map.Entry<String, ArrayList<String>>) it.next();
+			clasificacionTotal.put(entry.getKey(), entry.getValue());
+		}
+				
+		return clasificacionTotal;
 	}
 
 	@Override
