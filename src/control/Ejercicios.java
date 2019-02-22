@@ -1,17 +1,24 @@
 package control;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
 
 import modelo.Equipo;
 //import modelo.Equipo;
@@ -969,42 +976,222 @@ public class Ejercicios {
 		panel.setBackground(Color.black);
 		ventana.add(panel, "North");
 
-	  
-	       
-		String[] nuevo = new String[]{"Nombre","Puntos","GF","GC","V","E","D"};
+		String[] columnas = new String[]{"Nombre","Puntos","GF","GC","V","E","D"};
 		
-		DefaultTableModel modelo = new DefaultTableModel();// definimos el objeto tableModel
+		DefaultTableModel modelo = new DefaultTableModel(columnas,0);// definimos el objeto tableModel
+		modelo.addRow(columnas);
+		
 		JTable clasificacionLiga = new JTable();// creamos la instancia de la tabla
 		clasificacionLiga.setModel(modelo);
-		modelo.addColumn("Clasificacion",new String[] {"Nombre"});
-		modelo.addColumn("Clasificacion",new String[] {"Puntos"});
-		modelo.addColumn("Clasificacion",new String[] {"GF"});
-		modelo.addColumn("Clasificacion",new String[] {"GC"});
-		modelo.addColumn("Clasificacion",new String[] {"V"});
-		modelo.addColumn("Clasificacion",new String[] {"E"});
-		modelo.addColumn("Clasificacion",new String[] {"D"});
-
-		clasificacionLiga.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		clasificacionLiga.getTableHeader().setReorderingAllowed(false);
 		
+		TableColumn columnaNombre = clasificacionLiga.getColumn("Nombre"); // Modificamos el ancho de esta columna
+		TableColumn columnaGC = clasificacionLiga.getColumn("GC"); // Modificamos el ancho de esta columna
+		columnaNombre.setPreferredWidth(220);
+		columnaGC.setPreferredWidth(80);
 
-		
-		
+		// Creación del array que iremos añadiendo como campos de cada columna en cada fila
+		HashMap<String, ArrayList<String>> clasificacionEquipos = new Equipo().clasificacionTotal("ficheros/partidos.txt", "#");
 
-		HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt","#");
-		
-		//modelo.addRow(clasificacionTotal.get("BCN"));
+		ArrayList<String[]> equipos = new ArrayList<String[]>();
+		equipos = Equipo.obtenerListaClasificacionTotal(clasificacionEquipos, equipos);
 
+		String[][] arrayEquipos = equipos.toArray(new String[equipos.size()][]);
+		
+		// Añadimos los elementos en cada columna correspondiente
+		for (int i= 0; i < arrayEquipos.length; i++) {
+			modelo.addRow(new String[] {arrayEquipos[i][0],arrayEquipos[i][1],arrayEquipos[i][2],arrayEquipos[i][3]
+					,arrayEquipos[i][4],arrayEquipos[i][5],arrayEquipos[i][6]});
+		}
 
 		panel.add(clasificacionLiga);
 		ventana.pack();
 		ventana.setVisible(true);
+	} 
+	
+	
+	
+// ------------------------------------------------------------------	
+						
+	
+	// 20 de Febrero del 2019 -- Actividad: Entrada de teclado a fichero
+	/*public void entradaTecladoAFichero(String rutaFichero) {
+		try {
+
+			BufferedWriter fichero = new BufferedWriter(new FileWriter(rutaFichero,true));
+
+
+			teclado = new Scanner(System.in);
+			System.out.println("Teclee sus datos de prueba... (x|X) para terminar");
+			String tecleado = teclado.nextLine();
+			
+			while ((tecleado = teclado.nextLine()).compareToIgnoreCase("x") != 0) {
+				fichero.write("\n" + tecleado);
+			}
+			
+			fichero.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+	}*/
+	
+	
+// ------------------------------------------------------------------	
+							
+		
+	// 20 de Febrero del 2019 -- Actividad: Grabar el número de tiradas que se realizan con un dado	
+	
+	public void grabarTiradasDados(int cuantas) {
+		//tiradasDado.txt
+		// Abrir fichero de salida
+		try {
+
+			BufferedWriter fichero = new BufferedWriter(new FileWriter("ficheros/tiradasDado.txt"));
+			Random rnd = new Random();
+			int contador = 1;
+			int media = 0;
+			
+			for (int i = 0; i < cuantas; i++) {
+					int numero = 1 + rnd.nextInt(6);
+					fichero.write("Tirada" + contador + ": " + numero + "\n");
+					contador++;
+					media += numero;
+			}
+			
+			fichero.write("\nMedia aritmética de tiradas de dado: " + (float)media/cuantas);
+			
+			System.out.println("Proceso terminado");
+			fichero.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+	}
+			
+	
+// ------------------------------------------------------------------	
+							
+		
+	// 20 de Febrero del 2019 -- Actividad: Crear fichero con objetos de Equipo
+	public void crearFicherosObjetoEquipos(ArrayList<Equipo> listaEquipos) {
+		ArrayList<Equipo> equipos = listaEquipos;
+
+		try {
+			FileOutputStream salida = new FileOutputStream("ficheros/objetosEquipos.txt");
+			ObjectOutputStream objetos = new ObjectOutputStream(salida);
+			// Recorre equipos.txt, creando objetos equipo y grabándolos en objetos.
+
+			for (int i = 0; i < equipos.size(); i++) {
+				objetos.writeObject(equipos.get(i));
+				if(i==10) {
+					objetos.writeObject("Me he colado y no soy un equipo");
+				}
+			}
+
+			objetos.writeObject("No soy un equipo"); // Añadimos es objeto para evaluaciones posteriores
+			// Querremos comprobar si todos los dato del fichero que creamos contiene solo equipos y 
+			// en el caso de que no, cómo controlarlo.
+
+			System.out.println("El objeto fue creado satisfactoriamente en el fichero");
+			objetos.close();
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
 	}
 	
-	
-	
-	public static void main(String[] args) {
+	public void leerFicherosObjetoEquipos(String rutaFichero){
+		int acumuladorObjetosEquipo = 0;
+		int acumuladorObjetosNoEquipo = 0;
 		
+		try {
+			ObjectInputStream objetos = new ObjectInputStream(new FileInputStream(rutaFichero));
+			Object lectura = objetos.readObject(); // Lee el primer objeto
+			int contador = 1;
+
+			
+			while (lectura != null) {
+				if (lectura instanceof Equipo) { // Esta condición evalúa si el objeto que está leyendo es un equipo
+					System.out.println(contador + ": " + (Equipo)lectura);
+					acumuladorObjetosEquipo++;
+				} else {
+					System.out.println(contador + ": El objeto siguiente no es un equipo: [" + lectura + "]");
+					acumuladorObjetosNoEquipo++;
+				}
+				lectura = objetos.readObject(); // Avanza al siguiente objeto
+				contador++;
+			}
+			objetos.close(); 
+			
+
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("\nFin de la evaluación");
+		} catch (ClassNotFoundException e) {
+			System.out.println("No se ha encontrado el objeto");
+		}
+		System.out.println("\nCantidad de objetos de Equipo: " + acumuladorObjetosEquipo 
+				+ "\nCantidad de objetos distintos de Equipo: " + acumuladorObjetosNoEquipo);
+	}
+	
+	public static void main(String[] args) {		
+		
+		//20 de Febrero del 2019 -- Actividad: Crear fichero con objetos de Equipo
+		new Ejercicios().crearFicherosObjetoEquipos(new Equipo().crearListaEquiposConDatos("ficheros/equipos.txt", "#"));
+		new Ejercicios().leerFicherosObjetoEquipos("ficheros/objetosEquipos.txt");
+		
+		
+	// ------------------------------------------------------------------	
+
+			
+		//20 de Febrero del 2019 -- Actividad: Grabar el número de tiradas que se realizan con un dado	
+		//new Ejercicios().grabarTiradasDados(1000);
+		
+		
+	// ------------------------------------------------------------------	
+
+			
+		//20 de Febrero del 2019 -- Actividad: Entrada de teclado a fichero
+		//new Ejercicios().entradaTecladoAFichero("ficheros/teclado.txt");
+
+		
+		
+	// ------------------------------------------------------------------	
+		
+		
+		// 20 de Febrero del 2019 -- Actividad: Crear un equipo	
+		/*Equipo equipo = new Equipo().crearEquipo("RMA");
+		
+		System.out.println("Id: " + equipo.getIdEquipo() + "\nNombre corto: " + equipo.getnombreCorto() + "\nNombre largo: " + equipo.getNombreEquipo()
+		+ "\nClasificación: [Puntos: " + equipo.getPuntos() + "] [GF: " + equipo.getGolesFavor() + ", GC: " + equipo.getGolesContra()
+		+ "] [V: " + equipo.getVictoria() + ", E: " + equipo.getEmpate() + ", D: " + equipo.getDerrota() + "]");*/
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		// 12 de Febrero del 2019 -- Actividad: Mostrar una lista de la clasificación total
+		/*HashMap<String, ArrayList<String>> clasificacionEquipos = new Equipo().clasificacionTotal("ficheros/partidos.txt", "#");
+
+		ArrayList<String[]> equipos = new ArrayList<String[]>();
+		equipos = obtenerListaClasificacionTotal(clasificacionEquipos, equipos);
+		
+		for (int i = 0; i < equipos.size(); i++) {
+			System.out.println(equipos.get(i)[0] + " ---- [Puntos:" + equipos.get(i)[1] + "] [GF:" + equipos.get(i)[2]
+			+ " GC:" + equipos.get(i)[3]);
+		}*/
+
+
+	// ------------------------------------------------------------------	
+
+			
 		// 7 de Febrero del 2019 -- Actividad: Mostrar tabla de clasificación de liga de Fútbol
 		//new Ejercicios().tablaClasificacion();
 		
@@ -1013,17 +1200,25 @@ public class Ejercicios {
 
 		
 		// 7 de Febrero del 2019 -- Actividad: Mostrar clasificación total
-		/*HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().claficacionTotal("ficheros/partidos.txt", "#");
+		/*HashMap<String, ArrayList<String>> clasificacionTotal = new Equipo().clasificacionTotal("ficheros/partidos.txt", "#");
+
 		
 		Set<String> clavesMapa = clasificacionTotal.keySet();
 		
 		for(String clave: clavesMapa) {
-			System.out.println(clasificacionTotal.get(clave).get(0)
-					+ " Puntos:" + clasificacionTotal.get(clave).get(1)
+			System.out.println(clave + ": "
+					+ "[Puntos:" + clasificacionTotal.get(clave).get(1)
+					+ "] - [GF:" + clasificacionTotal.get(clave).get(2) 
+					+ ", GC:" + clasificacionTotal.get(clave).get(3)
+			 		+ "] - [V:" + clasificacionTotal.get(clave).get(4) 
+			 		+ ", E:" + clasificacionTotal.get(clave).get(5) 
+			 		+ ", D:" + clasificacionTotal.get(clave).get(6) 
+			 		+ "] Nombre completo: " + clasificacionTotal.get(clave).get(0)
 					);
-		}*/
+		}
 				
-		
+		System.out.println("");*/
+
 
 	// ------------------------------------------------------------------	
 
@@ -1037,7 +1232,7 @@ public class Ejercicios {
 
 		
 		// 30 de Enero del 2019 -- Actividad: Muestra todos los resultados de los equipos ordenados
-		new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
+		//new Equipo().muestraResultadosOrdenados("ficheros/partidos.txt", "#");
 
 
 	// ------------------------------------------------------------------	
