@@ -216,40 +216,59 @@ public class Partido {
 	//24 de Enero del 2019 -- Actividad: Obtener un mapa con los resultados de cada equipo
 	public HashMap<String, ArrayList<Integer>> resultadosEquipos(String rutaFichero, String delimitador){
 		try {
+			
+
 			HashMap<String,ArrayList<Integer>> mapaResultadosEquipos = new HashMap<String, ArrayList<Integer>>();
 			
 			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
 			String registro;
 			
-			while((registro = fichero.readLine()) != null){
-				// Romper la cadena registro
-				String[] campos = registro.split(delimitador);
-				
-				// Creamos el mapa de equipos con un arraylist donde se recojan los valores de victoria, empate y derrota
-				if(!mapaResultadosEquipos.containsKey(campos[2]) || !mapaResultadosEquipos.containsKey(campos[4])) {
-					for(int i = 2; i<=4; i+=2) {
-						if(!mapaResultadosEquipos.containsKey(campos[i])){
-							// Creamos el ArrayList dentro de este bucle for para que cada ArrayList tenga su único identificador
-							mapaResultadosEquipos.put(campos[i], new ArrayList<Integer>(Arrays.asList(0,0,0)));	
+			
+			
+			while ((registro = fichero.readLine()) != null) {
+				try {// Romper la cadena registro
+					String[] campos = registro.split(delimitador);
+
+					// Creamos el mapa de equipos con un arraylist donde se recojan los valores de
+					// victoria, empate y derrota
+					if (!mapaResultadosEquipos.containsKey(campos[2])
+							|| !mapaResultadosEquipos.containsKey(campos[4])) {
+						for (int i = 2; i <= 4; i += 2) {
+							if (!mapaResultadosEquipos.containsKey(campos[i])) {
+								// Creamos el ArrayList dentro de este bucle for para que cada ArrayList tenga
+								// su único identificador
+								mapaResultadosEquipos.put(campos[i], new ArrayList<Integer>(Arrays.asList(0, 0, 0)));
+							}
 						}
-					} 
-				}
-				
-				try {
-					if(Integer.parseInt(campos[3]) > Integer.parseInt(campos[5])) {	
-						mapaResultadosEquipos.get(campos[2]).set(0, mapaResultadosEquipos.get(campos[2]).get(0)+1); // Victoria para el equipo local
-						mapaResultadosEquipos.get(campos[4]).set(2, mapaResultadosEquipos.get(campos[4]).get(2)+1); // Derrota del equipo visitante
-						
-					} else if (Integer.parseInt(campos[3]) < Integer.parseInt(campos[5])) {						
-						mapaResultadosEquipos.get(campos[2]).set(2, mapaResultadosEquipos.get(campos[2]).get(2)+1); // Derrota del equipo local
-						mapaResultadosEquipos.get(campos[4]).set(0, mapaResultadosEquipos.get(campos[4]).get(0)+1); // Victoria para el equipo visitante
-						
-					} else if (Integer.parseInt(campos[3]) == Integer.parseInt(campos[5])) {
-						mapaResultadosEquipos.get(campos[2]).set(1, mapaResultadosEquipos.get(campos[2]).get(1)+1); // Empate por parte del equipo local
-						mapaResultadosEquipos.get(campos[4]).set(1, mapaResultadosEquipos.get(campos[4]).get(1)+1); // Empate por parte del equipo visitante
 					}
-				} catch (NumberFormatException e) {
-					break;
+
+					try {
+						if (Integer.parseInt(campos[3]) > Integer.parseInt(campos[5])) {
+							mapaResultadosEquipos.get(campos[2]).set(0,
+									mapaResultadosEquipos.get(campos[2]).get(0) + 1); // Victoria para el equipo local
+							mapaResultadosEquipos.get(campos[4]).set(2,
+									mapaResultadosEquipos.get(campos[4]).get(2) + 1); // Derrota del equipo visitante
+
+						} else if (Integer.parseInt(campos[3]) < Integer.parseInt(campos[5])) {
+							mapaResultadosEquipos.get(campos[2]).set(2,
+									mapaResultadosEquipos.get(campos[2]).get(2) + 1); // Derrota del equipo local
+							mapaResultadosEquipos.get(campos[4]).set(0,
+									mapaResultadosEquipos.get(campos[4]).get(0) + 1); // Victoria para el equipo
+																						// visitante
+
+						} else if (Integer.parseInt(campos[3]) == Integer.parseInt(campos[5])) {
+							mapaResultadosEquipos.get(campos[2]).set(1,
+									mapaResultadosEquipos.get(campos[2]).get(1) + 1); // Empate por parte del equipo
+																						// local
+							mapaResultadosEquipos.get(campos[4]).set(1,
+									mapaResultadosEquipos.get(campos[4]).get(1) + 1); // Empate por parte del equipo
+																						// visitante
+						}
+					} catch (NumberFormatException e) {
+						break;
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					// Ignorar líneas vacías del fichero
 				}
 			}
 
@@ -271,6 +290,8 @@ public class Partido {
 			System.out.println("Fichero no encontrado.");
 		} catch (IOException e) {
 			System.out.println("IO Excepcion");
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Línea vacía");
 		}
 		return null;
 	}
@@ -283,27 +304,31 @@ public class Partido {
 			String registro;
 			
 			while((registro = fichero.readLine()) != null){
-				// Romper la cadena registro
-				String[] campos = registro.split(delimitador);
-				
-				// Creamos el mapa de equipos con un arraylist donde se recojan los valores de goles recibidos y marcados
-				if(!mapaGolesEquipos.containsKey(campos[2]) || !mapaGolesEquipos.containsKey(campos[4])) {
-					for(int i = 2; i<=4; i+=2) {
-						if(!mapaGolesEquipos.containsKey(campos[i])){
-							mapaGolesEquipos.put(campos[i], new ArrayList<Integer>(Arrays.asList(0,0)));		
-						}
-					} 
-				}
-				
 				try {
-					mapaGolesEquipos.get(campos[2]).set(0, mapaGolesEquipos.get(campos[2]).get(0)+Integer.parseInt(campos[3])); // Sumamos goles marcados por equipo local
-					mapaGolesEquipos.get(campos[4]).set(0, mapaGolesEquipos.get(campos[4]).get(0)+Integer.parseInt(campos[5])); // Sumamos goles marcados por equipo visitante
+					// Romper la cadena registro
+					String[] campos = registro.split(delimitador);
 					
-					mapaGolesEquipos.get(campos[2]).set(1, mapaGolesEquipos.get(campos[2]).get(1)+Integer.parseInt(campos[5])); // Sumamos goles recibidos por equipo local
-					mapaGolesEquipos.get(campos[4]).set(1, mapaGolesEquipos.get(campos[4]).get(1)+Integer.parseInt(campos[3])); // Sumamos goles recibidos por equipo visitante
+					// Creamos el mapa de equipos con un arraylist donde se recojan los valores de goles recibidos y marcados
+					if(!mapaGolesEquipos.containsKey(campos[2]) || !mapaGolesEquipos.containsKey(campos[4])) {
+						for(int i = 2; i<=4; i+=2) {
+							if(!mapaGolesEquipos.containsKey(campos[i])){
+								mapaGolesEquipos.put(campos[i], new ArrayList<Integer>(Arrays.asList(0,0)));		
+							}
+						} 
+					}
 					
-				} catch (NumberFormatException e) {
-					break;
+					try {
+						mapaGolesEquipos.get(campos[2]).set(0, mapaGolesEquipos.get(campos[2]).get(0)+Integer.parseInt(campos[3])); // Sumamos goles marcados por equipo local
+						mapaGolesEquipos.get(campos[4]).set(0, mapaGolesEquipos.get(campos[4]).get(0)+Integer.parseInt(campos[5])); // Sumamos goles marcados por equipo visitante
+						
+						mapaGolesEquipos.get(campos[2]).set(1, mapaGolesEquipos.get(campos[2]).get(1)+Integer.parseInt(campos[5])); // Sumamos goles recibidos por equipo local
+						mapaGolesEquipos.get(campos[4]).set(1, mapaGolesEquipos.get(campos[4]).get(1)+Integer.parseInt(campos[3])); // Sumamos goles recibidos por equipo visitante
+						
+					} catch (NumberFormatException e) {
+						break;
+					}
+				} catch (ArrayIndexOutOfBoundsException e) {
+					// Ignorar líneas vacías del fichero
 				}
 			}
 

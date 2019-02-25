@@ -23,6 +23,7 @@ import javax.swing.table.TableColumn;
 import modelo.Equipo;
 //import modelo.Equipo;
 import modelo.Estudiante;
+import modelo.Jugador;
 import modelo.Partido;
 
 //import java.util.Arrays;
@@ -1143,9 +1144,31 @@ public class Ejercicios {
 	
 	public static void main(String[] args) {		
 		
+		//24 de Febrero del 2019 -- Activadad: Mostrar la lista de jugadores de cada equipo
+		/*ArrayList<Jugador> jugadores = new Jugador().listaJugadoresDeUnEquipo(1);
+		
+		for (int i = 0; i < jugadores.size(); i++) {
+			System.out.println("Id jugador:" + jugadores.get(i).getIdJugador() + ", Id equipo: " + jugadores.get(i).getIdEquipo()
+    				+ ", Dorsal: " + jugadores.get(i).getDorsal() + ", Nombre jugador: " + jugadores.get(i).getNombre() + "]");
+		}*/
+		
+		//new Jugador().mostrarEquiposYSuListaDeJugadoresOrdenadoPorIdEquipo();
+		new Jugador().mostrarEquiposYSuListaDeJugadoresOrdenadoPorClasificacion();
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		//22 de Febrero del 2019 -- Actividad: Comprobar que la lista de jugadores es correcta
+		//new Jugador().comprobarJugadores("ficheros/jugadores.txt", "#");
+		
+		
+	// ------------------------------------------------------------------	
+
+			
 		//20 de Febrero del 2019 -- Actividad: Crear fichero con objetos de Equipo
-		new Ejercicios().crearFicherosObjetoEquipos(new Equipo().crearListaEquiposConDatos("ficheros/equipos.txt", "#"));
-		new Ejercicios().leerFicherosObjetoEquipos("ficheros/objetosEquipos.txt");
+		//new Ejercicios().crearFicherosObjetoEquipos(new Equipo().crearListaEquiposConDatos("ficheros/equipos.txt", "#"));
+		//new Ejercicios().leerFicherosObjetoEquipos("ficheros/objetosEquipos.txt");
 		
 		
 	// ------------------------------------------------------------------	

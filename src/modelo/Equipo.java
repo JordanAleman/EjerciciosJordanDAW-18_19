@@ -262,7 +262,7 @@ public class Equipo implements Serializable{
 //	}
 	
 	public HashMap<String, ArrayList<String>> clasificacionTotal(String rutaFichero, String delimitador){
-		// Estos tres primeros mapas son contendrán todos los datos que querré meter en un solo mapa
+		// Estos tres primeros mapas contendrán todos los datos que querré meter en un solo mapa
 		HashMap<String, Integer> clasificacionEquipos = new Equipo().clasificacionEquipos(rutaFichero, delimitador);
 		HashMap<String, ArrayList<Integer>> mapaResultadosEquipos = new Partido().resultadosEquipos(rutaFichero, delimitador);
 		HashMap<String, ArrayList<Integer>> mapaGolesEquipos = new Partido().numeroGolesMarcadosYRecibidos(rutaFichero, delimitador);
