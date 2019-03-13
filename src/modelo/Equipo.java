@@ -33,6 +33,22 @@ public class Equipo implements Serializable{
 		this.nombreCorto = nombreCorto;
 		this.nombreEquipo = nombreEquipo;
 	}
+	
+	
+
+	public Equipo(int idEquipo, String nombreCorto, String nombreEquipo, int puntos, int golesFavor, int golesContra,
+			int victoria, int empate, int derrota) {
+		super();
+		this.idEquipo = idEquipo;
+		this.nombreCorto = nombreCorto;
+		this.nombreEquipo = nombreEquipo;
+		Puntos = puntos;
+		GolesFavor = golesFavor;
+		GolesContra = golesContra;
+		Victoria = victoria;
+		Empate = empate;
+		Derrota = derrota;
+	}
 
 	public int getIdEquipo() {
 		return idEquipo;
@@ -42,11 +58,11 @@ public class Equipo implements Serializable{
 		this.idEquipo = idEquipo;
 	}
 
-	public String getnombreCorto() {
+	public String getNombreCorto() {
 		return nombreCorto;
 	}
 
-	public void setnombreCorto(String nombreCorto) {
+	public void setNombreCorto(String nombreCorto) {
 		this.nombreCorto = nombreCorto;
 	}
 
@@ -222,7 +238,7 @@ public class Equipo implements Serializable{
 		System.out.println("El resultado de cada equipo es el siguiente:");
 		for (String clave : clavesMapa) {
 			for (int i = 0; i < nombreEquipo.size(); i++) {
-				if (clave.compareTo(nombreEquipo.get(i).getnombreCorto()) == 0) {
+				if (clave.compareTo(nombreEquipo.get(i).getNombreCorto()) == 0) {
 					System.out.println(clave + " [Puntos: " + clasificacionEquipos.get(clave) + "]" + " - [GF:"
 							+ mapaGolesEquipos.get(clave).get(0) + ", GC:" + mapaGolesEquipos.get(clave).get(1) + "]"
 							+ " - [V:" + mapaResultadosEquipos.get(clave).get(0) 
@@ -278,7 +294,7 @@ public class Equipo implements Serializable{
 
 		for (String clave : clavesMapa) {
 			for (int i = 0; i < nombreEquipo.size(); i++) {
-				if (clave.compareTo(nombreEquipo.get(i).getnombreCorto()) == 0) {
+				if (clave.compareTo(nombreEquipo.get(i).getNombreCorto()) == 0) {
 					clasificacionTotal.put(clave, new ArrayList<String>(Arrays.asList(
 							nombreEquipo.get(i).getNombreEquipo()
 							,Integer.toString(clasificacionEquipos.get(clave))
@@ -378,7 +394,7 @@ public class Equipo implements Serializable{
 		for (String clave : clavesMapa) {
 			if(clave.compareTo(nombreCorto)==0) {
 				equipo.setIdEquipo(mapaEquipos.get(clave).getIdEquipo());
-				equipo.setnombreCorto(clave);
+				equipo.setNombreCorto(clave);
 				equipo.setNombreEquipo(clasificacionEquipos.get(clave).get(0));
 				equipo.setPuntos(Integer.parseInt(clasificacionEquipos.get(clave).get(1)));
 				equipo.setGolesFavor(Integer.parseInt(clasificacionEquipos.get(clave).get(2)));
@@ -416,7 +432,7 @@ public class Equipo implements Serializable{
 //	}
 	
 	public String toString() {
-		return "Id: " + getIdEquipo() + " - " + getnombreCorto()
+		return "Id: " + getIdEquipo() + " - " + getNombreCorto()
 		+ " [Puntos: " + getPuntos() + "] [GF: " + getGolesFavor() + ", GC: " + getGolesContra()
 		+ "] [V: " + getVictoria() + ", E: " + getEmpate() + ", D: " + getDerrota() + "]" + " Nombre largo: " + getNombreEquipo();
 	}
@@ -442,6 +458,44 @@ public class Equipo implements Serializable{
 			System.out.println("Fichero no encontrado.");
 		} catch (IOException e) {
 			System.out.println("IO Excepcion");
+		}
+		return null;
+	}
+	
+	public ArrayList<Equipo> crearListaEquiposSinDatos(String rutaFichero, String delimitador){
+		try {
+			ArrayList<Equipo> equipos = new ArrayList<Equipo>();	
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			
+			while((registro = fichero.readLine()) != null){
+				// Romper la cadena registro
+				String[] campos = registro.split(delimitador);
+				
+				// Incluir cada elemento del array como elementos del ArrayList de Equip
+				equipos.add(new Equipo(Integer.parseInt(campos[0]),campos[1],campos[2],0,0,0,0,0,0));			
+			}
+
+			fichero.close();
+			return equipos;
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		return null;
+	}
+	
+	public Equipo buscarEquipo(String equipo, ArrayList<Equipo> equipos) {
+		for (int i = 0; i < equipos.size(); i++) {
+			if (equipo.compareTo(equipos.get(i).getNombreCorto()) == 0) {
+				Equipo equipoEncontrado = new Equipo(equipos.get(i).getIdEquipo(),equipos.get(i).getNombreCorto()
+						,equipos.get(i).getNombreEquipo(),equipos.get(i).getPuntos(), equipos.get(i).getVictoria(),
+						equipos.get(i).getEmpate(),equipos.get(i).getDerrota(),equipos.get(i).getGolesFavor()
+						,equipos.get(i).getGolesContra());
+				return equipoEncontrado;
+			}
 		}
 		return null;
 	}

@@ -52,6 +52,14 @@ public class Jugador extends Persona {
 		this.idEquipo = idEquipo;
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		return "Id jugador: " +getIdJugador() + ", Id equipo: " + getIdEquipo() 
+		+ ", Dorsal: " + getDorsal() + ", Nombre jugador: " + getNombre() + "]";
+	}
+
 	// 23 de Febrero del 2019 -- Comprobar que los jugadores de "fichero/jugadores.txt" están todos correctos
 	public void comprobarJugadores(String rutaFichero, String delimitador) {
 		try {
@@ -80,8 +88,7 @@ public class Jugador extends Persona {
 			fichero.close();
 			
 			for (int i = 0; i < jugadores.size(); i++) {
-				System.out.println(contador + ": [Id jugador:" + jugadores.get(i).getIdJugador() + ", Id equipo: " + jugadores.get(i).getIdEquipo()
-						+ ", Dorsal: " + jugadores.get(i).getDorsal() + ", Nombre jugador: " + jugadores.get(i).getNombre() + "]");
+				System.out.println(contador + jugadores.get(i).toString());
 				contador++;
 			}
 			
@@ -194,9 +201,7 @@ public class Jugador extends Persona {
 			int contador = 1;
 			System.out.println("Lista de jugadores del " + equipo.getNombreEquipo() + ":\n");
 			for (int i = 0; i < equipoYJugadores.get(equipo).size(); i++) {
-				System.out.println(contador + ": [Id jugador: " + equipoYJugadores.get(equipo).get(i).getIdJugador() 
-						+ ", Id equipo: " + equipoYJugadores.get(equipo).get(i).getIdEquipo() + ", Dorsal: " + equipoYJugadores.get(equipo).get(i).getDorsal()
-						+ ", Nombre jugador: " + equipoYJugadores.get(equipo).get(i).getNombre() + "]");
+				System.out.println(contador + ": " + equipoYJugadores.get(equipo).get(i).toString());
 				contador++;	
 			}
 			System.out.println("");
@@ -213,21 +218,58 @@ public class Jugador extends Persona {
 		for (String clasificacion : clavesMapaClasificacionTotal) {
 			int contador = 1;
 			for (Equipo equipo : clavesMapaEquipoYJugadores) {
-				if (clasificacion.compareTo(equipo.getnombreCorto()) == 0) {
+				if (clasificacion.compareTo(equipo.getNombreCorto()) == 0) {
 					System.out.println(equipo.toString());
 					System.out.println("Lista de jugadores del " + equipo.getNombreEquipo() + ":\n");
 					
 					for (int i = 0; i < equipoYJugadores.get(equipo).size(); i++) {
-						System.out.println(contador + ": [Id jugador: " + equipoYJugadores.get(equipo).get(i).getIdJugador() 
-								+ ", Id equipo: " + equipoYJugadores.get(equipo).get(i).getIdEquipo() + ", Dorsal: " 
-								+ equipoYJugadores.get(equipo).get(i).getDorsal()
-								+ ", Nombre jugador: " + equipoYJugadores.get(equipo).get(i).getNombre() + "]");
+						System.out.println(contador + ": " + equipoYJugadores.get(equipo).get(i).toString());
 						contador++;	
 					}
 				}
 			}
 
 			System.out.println("----------------------------------------------------------------------------------------\n");
+		}
+	}
+	
+	public void listaJugadoresPorNombre(String rutaFichero, String delimitador) {
+		try {
+			ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+			
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			int contador = 1;
+	
+			while((registro = fichero.readLine()) != null){
+				try {
+					// Romper la cadena registro
+					String[] campos = registro.split(delimitador);
+					jugadores.add(new Jugador(Integer.parseInt(campos[0]),campos[1],Integer.parseInt(campos[2]),Integer.parseInt(campos[3])));
+					
+				} catch (NumberFormatException e) {
+					// Ignorar líneas vacías del fichero.
+				}
+
+			}
+			
+			fichero.close();
+			
+			Collections.sort(jugadores, new Comparator<Persona>() {
+				   public int compare(Persona obj1, Persona obj2) {
+				      return obj1.getNombre().compareTo(obj2.getNombre());
+				   }
+			});
+			
+			for (int i = 0; i < jugadores.size(); i++) {
+				System.out.println(contador + ": " + jugadores.get(i).toString());
+				contador++;
+			}
+				
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
 		}
 	}
 }

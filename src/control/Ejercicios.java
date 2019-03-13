@@ -1142,18 +1142,106 @@ public class Ejercicios {
 				+ "\nCantidad de objetos distintos de Equipo: " + acumuladorObjetosNoEquipo);
 	}
 	
-	public static void main(String[] args) {		
+		
+//------------------------------------------------------------------	
+					
+
+	//12 de Marzo del 2019 -- Actividad: Búsqueda dicotómica (o binaria)
+	public int busquedaDicotomica(int[] pajar, int aguja) {
+		int medio = pajar.length / 2;
+		int izq = pajar[0];
+		int der = pajar.length;
+		int tamanio = pajar.length;
+
+		
+		while(aguja != pajar[medio]) {
+			if (tamanio == 1) {
+				return -1;
+			}
+			
+			if(aguja < pajar[medio]) {
+				der = medio;
+			} else {
+				izq = medio;
+			}
+			medio = ((der - izq) / 2) + izq; 
+			tamanio = tamanio / 2;
+
+		}
+		
+		return medio;		
+		
+	}
+
+	
+	
+	public static void main(String[] args) {	
+		
+		//13 de Marzo del 2019 -- Actividad: Mostrar lista jugadores ordenado alfabéticamente por nombre
+		//new Jugador().listaJugadoresPorNombre("ficheros/jugadores.txt", "#");
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		//12 de Marzo del 2019 -- Actividad: Encontrar un equipo
+		/*ArrayList<Equipo> listaEquipos = new Equipo().crearListaEquiposSinDatos("ficheros/equipos.txt", "#");
+		
+		String nombreCorto = "RMAa";
+		
+		Equipo equipo = new Equipo().buscarEquipo(nombreCorto, listaEquipos);
+		
+		if (equipo != null) {
+			System.out.println("Se ha encontrado al equipo en la lista y es el siguiente:\n" + equipo.toString());
+		} else {
+			System.out.println("No se ha encontrado al equipo [" + nombreCorto + "]");
+		}*/
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		//12 de Marzo del 2019 -- Actividad: Búsqueda dicotómica (o binaria)
+		/*int[] pajar = {0,1,3,4,6,8,10,11,13,15,17};
+		
+		for (int i = 0; i <= 18; i++) {
+			int resultado = new Ejercicios().busquedaDicotomica(pajar, i);
+			
+			if (resultado != -1) {
+				System.out.println("La aguja [" + i + "] se encuentra en la posición: " + resultado);
+			} else {
+				System.out.println("La aguja [" + i + "] no se encuentra en el pajar.");
+			}
+		}*/
+		
+		
+	// ------------------------------------------------------------------	
+
+		
+		//12 de Marzo del 2019 -- Actividad: Crear lista de equipos y mostrarlos
+		/*ArrayList<Equipo> listaEquipos = new Equipo().crearListaEquiposSinDatos("ficheros/equipos.txt", "#");
+		
+		for (int i = 0; i < listaEquipos.size(); i++) {
+			System.out.println("Id equipo: " + listaEquipos.get(i).getIdEquipo() + " Nombre corto: " + listaEquipos.get(i).getNombreCorto()
+					+ " Nombre largo: " + listaEquipos.get(i).getNombreEquipo()
+					+ "\nClasificación: [Puntos: " + listaEquipos.get(i).getPuntos() + "] [GF: " + listaEquipos.get(i).getGolesFavor() 
+					+ ", GC: " + listaEquipos.get(i).getGolesContra()	+ "] [V: " + listaEquipos.get(i).getVictoria() 
+					+ ", E: " + listaEquipos.get(i).getEmpate() + ", D: " + listaEquipos.get(i).getDerrota() + "]\n");
+		}*/
+		
+		
+	// ------------------------------------------------------------------	
+
 		
 		//24 de Febrero del 2019 -- Activadad: Mostrar la lista de jugadores de cada equipo
 		/*ArrayList<Jugador> jugadores = new Jugador().listaJugadoresDeUnEquipo(1);
 		
 		for (int i = 0; i < jugadores.size(); i++) {
-			System.out.println("Id jugador:" + jugadores.get(i).getIdJugador() + ", Id equipo: " + jugadores.get(i).getIdEquipo()
-    				+ ", Dorsal: " + jugadores.get(i).getDorsal() + ", Nombre jugador: " + jugadores.get(i).getNombre() + "]");
+			System.out.println(jugadores.get(i).toString());
 		}*/
 		
 		//new Jugador().mostrarEquiposYSuListaDeJugadoresOrdenadoPorIdEquipo();
-		new Jugador().mostrarEquiposYSuListaDeJugadoresOrdenadoPorClasificacion();
+		//new Jugador().mostrarEquiposYSuListaDeJugadoresOrdenadoPorClasificacion();
 		
 		
 	// ------------------------------------------------------------------	

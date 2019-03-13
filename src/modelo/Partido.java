@@ -246,23 +246,23 @@ public class Partido {
 						if (Integer.parseInt(campos[3]) > Integer.parseInt(campos[5])) {
 							mapaResultadosEquipos.get(campos[2]).set(0,
 									mapaResultadosEquipos.get(campos[2]).get(0) + 1); // Victoria para el equipo local
+							
 							mapaResultadosEquipos.get(campos[4]).set(2,
 									mapaResultadosEquipos.get(campos[4]).get(2) + 1); // Derrota del equipo visitante
 
 						} else if (Integer.parseInt(campos[3]) < Integer.parseInt(campos[5])) {
 							mapaResultadosEquipos.get(campos[2]).set(2,
 									mapaResultadosEquipos.get(campos[2]).get(2) + 1); // Derrota del equipo local
+							
 							mapaResultadosEquipos.get(campos[4]).set(0,
-									mapaResultadosEquipos.get(campos[4]).get(0) + 1); // Victoria para el equipo
-																						// visitante
+									mapaResultadosEquipos.get(campos[4]).get(0) + 1); // Victoria para el equipo visitante
 
 						} else if (Integer.parseInt(campos[3]) == Integer.parseInt(campos[5])) {
 							mapaResultadosEquipos.get(campos[2]).set(1,
-									mapaResultadosEquipos.get(campos[2]).get(1) + 1); // Empate por parte del equipo
-																						// local
+									mapaResultadosEquipos.get(campos[2]).get(1) + 1); // Empate por parte del equipo local
+							
 							mapaResultadosEquipos.get(campos[4]).set(1,
-									mapaResultadosEquipos.get(campos[4]).get(1) + 1); // Empate por parte del equipo
-																						// visitante
+									mapaResultadosEquipos.get(campos[4]).get(1) + 1); // Empate por parte del equipo visitante
 						}
 					} catch (NumberFormatException e) {
 						break;
