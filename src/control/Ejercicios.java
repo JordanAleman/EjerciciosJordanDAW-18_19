@@ -1172,10 +1172,94 @@ public class Ejercicios {
 		return medio;		
 		
 	}
+	
+	
+	
+// ------------------------------------------------------------------	
 
+	
+	// 20 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo
+	public void mezclarFicheros(String rutaFichero1, String delimitador1, String rutaFichero2, String delimitador2){
+			ArrayList<String[]> fichero1 = listaFichero(rutaFichero1, delimitador1);
+			ArrayList<String[]> fichero2 = listaFichero(rutaFichero2, delimitador2);	
+			
+			ArrayList<String[]> mezclaFicheros = new ArrayList<String[]>();
+			
+			mezclaFicheros.addAll(fichero1);
+			mezclaFicheros.addAll(fichero2);
+			
+			Collections.sort(mezclaFicheros, new Comparator<String[]>() {
+				   public int compare(String[] obj1, String[] obj2) {
+				      if(Integer.parseInt(obj1[0]) > Integer.parseInt(obj2[0])) {
+				    	  return "1".compareTo("0");
+				      } else if(Integer.parseInt(obj1[0]) < Integer.parseInt(obj2[0])) {
+				    	  return "0".compareTo("1");
+				      } else {
+				    	  return obj1[0].compareTo(obj2[0]);
+				      }
+				     
+				   }
+			});
+
+			try {
+				BufferedWriter fichero = new BufferedWriter(new FileWriter("ficheros/ficherosMezclados.txt"));
+				for (int i = 0; i < mezclaFicheros.size(); i++) {
+					for (int j = 0; j < mezclaFicheros.get(i).length; j++) {
+						System.out.print(mezclaFicheros.get(i)[j] + " ");
+						fichero.write(mezclaFicheros.get(i)[j] + " ");
+					}
+					System.out.println("");
+					
+					if(i != mezclaFicheros.size() - 1) {
+						fichero.write("\n");
+					}
+				}
+				
+				fichero.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+	}
+
+	public ArrayList<String[]> listaFichero(String rutaFichero, String delimitador){
+		try {
+			ArrayList<String[]> listaFichero = new ArrayList<String[]>();	
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			
+			while((registro = fichero.readLine()) != null){
+				// Romper la cadena registro
+				String[] campos = registro.split(delimitador);
+				
+				listaFichero.add(campos);
+							
+			}
+
+			fichero.close();
+			return listaFichero;
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		return null;
+	}
 	
 	
 	public static void main(String[] args) {	
+		
+		// 20 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo
+		new Ejercicios().mezclarFicheros("ficheros/ordenar1.txt","#","ficheros/ordenar2.txt","#");
+		
+		
+		
+	// ------------------------------------------------------------------	
+
 		
 		//13 de Marzo del 2019 -- Actividad: Mostrar lista jugadores ordenado alfabéticamente por nombre
 		//new Jugador().listaJugadoresPorNombre("ficheros/jugadores.txt", "#");
