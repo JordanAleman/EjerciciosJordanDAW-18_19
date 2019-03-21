@@ -1251,11 +1251,143 @@ public class Ejercicios {
 	}
 	
 	
+	
+// ------------------------------------------------------------------	
+
+	
+	// 21 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo sin usar lista
+	public void mezclarFicherosSinListas(String rutaFichero1, String delimitador1, String rutaFichero2, String delimitador2) {
+		try {	
+			BufferedReader fichero1 = new BufferedReader(new FileReader(rutaFichero1));
+			BufferedReader fichero2 = new BufferedReader(new FileReader(rutaFichero2));
+			BufferedWriter ficheroMezclado = new BufferedWriter(new FileWriter("ficheros/ficherosNumerosMezclados.txt"));
+			String registro1 = fichero1.readLine();
+			String registro2 = fichero2.readLine();
+			
+
+			while((registro1 != null) || (registro2 != null)){
+				if (registro1 != null && registro2 != null) {
+					String[] campos1 = registro1.split(delimitador1);
+					String[] campos2 = registro2.split(delimitador2);
+					
+					if (Integer.parseInt(campos1[0]) < Integer.parseInt(campos2[0])) {
+						ficheroMezclado.write(campos1[0]);
+						registro1 = fichero1.readLine();
+					} else if (Integer.parseInt(campos1[0]) > Integer.parseInt(campos2[0])) {
+						ficheroMezclado.write(campos2[0]);
+						registro2 = fichero2.readLine();
+					} else {
+						ficheroMezclado.write(campos1[0] + "\n" + campos2[0]);
+						registro1 = fichero1.readLine();
+						registro2 = fichero2.readLine();
+					}
+				} else if (registro2 == null) {
+					String[] campos1 = registro1.split(delimitador1);
+					ficheroMezclado.write(campos1[0]);
+					registro1 = fichero1.readLine();
+				} else if (registro1 == null) {
+					String[] campos2 = registro2.split(delimitador1);
+					ficheroMezclado.write(campos2[0]);
+					registro2 = fichero2.readLine();
+				}
+				
+				if (registro1 != null && registro2 != null)
+					ficheroMezclado.write("\n");
+				
+			}
+			
+			fichero1.close();
+			fichero2.close();
+			ficheroMezclado.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+
+	}
+	
+	
+// ------------------------------------------------------------------	
+
+		
+	// 21 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos con solo números en uno solo y ordenarlo sin usar lista
+	public void mezclarFicherosSoloNumerosSinListas(String rutaFichero1, String rutaFichero2) {
+		try {	
+			BufferedReader fichero1 = new BufferedReader(new FileReader(rutaFichero1));
+			BufferedReader fichero2 = new BufferedReader(new FileReader(rutaFichero2));
+			BufferedWriter ficheroMezclado = new BufferedWriter(new FileWriter("ficheros/ficherosNumerosMezclados.txt"));
+			String registro1 = fichero1.readLine();
+			String registro2 = fichero2.readLine();
+			
+			while((registro1 != null) || (registro2 != null)){
+				try {
+					if (registro1 != null && registro2 != null) {
+						
+						if (Integer.parseInt(registro1) < Integer.parseInt(registro2)) {
+							ficheroMezclado.write(registro1);
+							registro1 = fichero1.readLine();
+						} else if (Integer.parseInt(registro1) > Integer.parseInt(registro2)) {
+							ficheroMezclado.write(registro2);
+							registro2 = fichero2.readLine();
+						} else {
+							ficheroMezclado.write(registro1 + "\n" + registro2);
+							registro1 = fichero1.readLine();
+							registro2 = fichero2.readLine();
+						}
+					} else if (registro2 == null) {
+						ficheroMezclado.write(registro1);
+						registro1 = fichero1.readLine();
+					} else if (registro1 == null) {
+						ficheroMezclado.write(registro2);
+						registro2 = fichero2.readLine();
+					}
+					
+					// Este if controla que no se añada al fichero una última línea vacía. 
+					// Mientras no esté ambos ficheros vacío, seguir añadiendo un salto de línea en el nuevo fichero.
+					if (!(registro1 == null && registro2 == null))
+						ficheroMezclado.write("\n");
+					
+				} catch (NumberFormatException e) {
+					// En el caso de que haya una excepción como esta, que podría darse por ejemplo con una línea vacía en medio
+					// de algún fichero, realizar lo siguiente.
+					if (registro1 == "") {
+						registro1 = fichero1.readLine();
+					}
+//					if (registro2 == "") {
+						registro2 = fichero2.readLine();
+//					}
+				}
+				
+			}
+			
+			fichero1.close();
+			fichero2.close();
+			ficheroMezclado.close();
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+
+	}
+	
+
+	
+	
 	public static void main(String[] args) {	
 		
-		// 20 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo
-		new Ejercicios().mezclarFicheros("ficheros/ordenar1.txt","#","ficheros/ordenar2.txt","#");
+		// 21 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo sin usar lista
+		new Ejercicios().mezclarFicherosSoloNumerosSinListas("ficheros/numeros1.txt","ficheros/numeros2.txt");
 		
+		
+	// ------------------------------------------------------------------	
+
+		
+		// 20 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo
+		//new Ejercicios().mezclarFicheros("ficheros/ordenar1.txt","#","ficheros/ordenar2.txt","#");
 		
 		
 	// ------------------------------------------------------------------	
