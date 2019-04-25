@@ -29,6 +29,7 @@ import modelo.Partido;
 //import java.util.Arrays;
 
 import modelo.Persona;
+import modelo.dao.AccesoDatos;
 //import java.util.*;
 
 public class Ejercicios {
@@ -1377,10 +1378,17 @@ public class Ejercicios {
 
 	
 	
-	public static void main(String[] args) {	
+	public static void main(String[] args) {
+		
+		// 23 de Abril del 2019 -- Actividad: Conectar Base de Datos
+		
+		
+		
+	// ------------------------------------------------------------------	
+
 		
 		// 21 de Marzo del 2019 -- Actividad: Mezclar dos ficheros distintos en uno solo y ordenarlo sin usar lista
-		new Ejercicios().mezclarFicherosSoloNumerosSinListas("ficheros/numeros1.txt","ficheros/numeros2.txt");
+		//new Ejercicios().mezclarFicherosSoloNumerosSinListas("ficheros/numeros1.txt","ficheros/numeros2.txt");
 		
 		
 	// ------------------------------------------------------------------	
