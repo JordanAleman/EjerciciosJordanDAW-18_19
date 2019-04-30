@@ -1,15 +1,7 @@
 package modelo.dao;
 
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.mysql.cj.protocol.Resultset;
-
-import control.BaseDatos;
 import control.UsoBD;
 import modelo.Equipo;
 
@@ -22,6 +14,9 @@ public class AccesoDatos {
 
 		new UsoBD().eliminarListaEquipo(listaEquipos);
 		new UsoBD().insertarListaEquipo(listaEquipos);
+		
+		new UsoBD().eliminarEquipoDB();
+		new UsoBD().insertarEquipoDatosBasicosDesdeFichero();
 		
 		
 

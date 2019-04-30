@@ -1,5 +1,9 @@
 package control;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -52,7 +56,9 @@ public class UsoBD {
 			
 			stmt.executeUpdate();
 			// Para que la sentencia se pueda ejecutar, al tratarse de una sentencia INSERT, tenemos que finalizar con el método "executeUpdate()".
+			con.close();
 			
+			System.out.println("Todos los elementos han sido insertado correctamente");
 
 		} catch (SQLException ex) {
 		// En el caso de que se produzca algún error al ejecutar la sentencia SQL, nos aparecerá por pantalla de esta misma consola el siguiente mensaje de error.
@@ -61,6 +67,7 @@ public class UsoBD {
 		} catch (NullPointerException ex) {
 			System.out.println("Fuera de rango");
 		}
+		
 		
 	}
 	
@@ -82,9 +89,12 @@ public class UsoBD {
 					stmt.setInt(7, listaEquipo.get(i).getVictoria()); 
 					stmt.setInt(8, listaEquipo.get(i).getEmpate());
 					stmt.setInt(9, listaEquipo.get(i).getDerrota());
+					stmt.executeUpdate();
+					
+					System.out.println("Insertado: IdEquipo [" + listaEquipo.get(i).getIdEquipo() + "] NombreCorto [" + listaEquipo.get(i).getNombreCorto() + "]");
 				}
 				
-				stmt.executeUpdate();
+				con.close();
 				
 			} catch (SQLException ex) {
 				System.out.println("Error al insertar un dato en la base de datos");
@@ -93,7 +103,49 @@ public class UsoBD {
 				System.out.println("Fuera de rango");
 			}
 			
+			System.out.println("Todos los elementos han sido insertado correctamente");
 		}
+	
+	public void insertarEquipoDatosBasicosDesdeFichero() {
+		PreparedStatement stmt = null;
+		
+		try {	
+			BufferedReader fichero = new BufferedReader(new FileReader("ficheros/equipos.txt"));
+			String registro;
+			
+			try {
+				while((registro = fichero.readLine()) != null){
+					// Romper la cadena registro
+					String[] campos = registro.split("#");
+					
+					stmt = con.prepareStatement("insert into equipodb (idEquipo, nombreCorto, nombreEquipo) values (?,?,?)");
+
+					stmt.setInt(1, Integer.parseInt(campos[0]));		
+					stmt.setString(2, campos[1]);
+					stmt.setString(3, campos[2]);
+					stmt.executeUpdate();
+		
+				}
+				
+				con.close();
+				
+			} catch (SQLException ex) {
+				System.out.println("Error al insertar un dato en la base de datos");
+
+			} catch (NullPointerException ex) {
+				System.out.println("Fuera de rango");
+			}	
+
+			fichero.close();
+
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+
+	}
 	
 	public void eliminarListaEquipo(ArrayList<Equipo> listaEquipo) {
 		// Este método eliminará una lista completa de equipos siempre y cuando cada uno de esos equipos ya estén incluidos en la base de datos.
@@ -107,9 +159,28 @@ public class UsoBD {
 				stmt = con.prepareStatement("delete from equipo where idEquipo=?");
 				
 				stmt.setInt(1, listaEquipo.get(i).getIdEquipo());
+				stmt.executeUpdate();
 			}
 			
+			con.close();
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al insertar un dato en la base de datos");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+	}
+	
+	public void eliminarEquipoDB() {
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			stmt = con.prepareStatement("delete from equipodb");
 			stmt.executeUpdate();
+			
+			con.close();
 			
 		} catch (SQLException ex) {
 			System.out.println("Error al insertar un dato en la base de datos");
