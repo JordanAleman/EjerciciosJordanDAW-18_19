@@ -18,31 +18,28 @@ public class BaseDatos {
 		this.dbName = dbName;
 		this.dbUser = dbUser;
 		this.dbPass = dbPass;
+		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			this.conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbName + "?&"
+			conexion = DriverManager.getConnection("jdbc:mysql://" + host + "/" + dbName + "?&"
 			                + "user=" + dbUser + "&password=" + dbPass + "&serverTimezone=UTC");
 			
-			System.out.println("Conectado ...");
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.println("Error al conectarse con la base de datos.");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Error al intentar cargar el Driver.");
 		}
+		
 	}
 
 	public BaseDatos() {
 		super();
 
 	}
+	
 
-	public Connection getConexion() {
+	public Connection getConnection() {
 		return conexion;
-	}
-
-	public void setConexion(Connection conexion) {
-		this.conexion = conexion;
 	}
 
 	public String getHost() {
