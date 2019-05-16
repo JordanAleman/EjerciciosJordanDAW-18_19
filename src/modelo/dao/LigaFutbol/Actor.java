@@ -1,4 +1,4 @@
-package modelo.dao;
+package modelo.dao.LigaFutbol;
 
 public class Actor {
 	private int actor_id;

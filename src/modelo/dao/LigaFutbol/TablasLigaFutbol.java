@@ -1,4 +1,4 @@
-package control;
+package modelo.dao.LigaFutbol;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -9,13 +9,15 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import control.BaseDatos;
 import modelo.Equipo;
+import modelo.Jugador;
 
-public class UsoBD {
+public class TablasLigaFutbol {
 	
 	private Connection con = null;
 
-	public UsoBD() {
+	public TablasLigaFutbol() {
 		BaseDatos conexion = new BaseDatos("localhost", "ligafutbol", "Jordan", "Jordan");
 		con = conexion.getConnection();
 	}
@@ -179,6 +181,60 @@ public class UsoBD {
 			
 			stmt = con.prepareStatement("delete from equipodb");
 			stmt.executeUpdate();
+			
+			con.close();
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al insertar un dato en la base de datos");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+	}
+	
+	public void insertarListaJugadores(ArrayList<Jugador> listaJugador) {
+		PreparedStatement stmt = null;
+
+		try {
+			for (int i = 0; i < listaJugador.size(); i++) {
+				stmt = con.prepareStatement("insert into jugador (idJugador, nombre, dorsal, idEquipo) values (?,?,?,?)");
+
+				stmt.setInt(1, listaJugador.get(i).getIdJugador());		
+				stmt.setString(2, listaJugador.get(i).getNombre());
+				stmt.setInt(3, listaJugador.get(i).getDorsal());
+				stmt.setInt(4, listaJugador.get(i).getIdEquipo());
+				stmt.executeUpdate();
+				
+				System.out.println("Insertado: IdEquipo [" + listaJugador.get(i).getIdJugador() + "] NombreCorto [" + listaJugador.get(i).getNombre() + "]");
+			}
+			
+			con.close();
+			System.out.println("Todos los elementos han sido insertado correctamente");
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al insertar un dato en la base de datos");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+		
+		
+			
+			
+	}
+	
+	
+	public void eliminarListaJugadores(ArrayList<Jugador> listaJugadores) {
+		
+		PreparedStatement stmt = null;
+		
+		try {
+			for (int i = 0; i < listaJugadores.size(); i++) {
+				stmt = con.prepareStatement("delete from jugador where idJugador=?");
+				
+				stmt.setInt(1, listaJugadores.get(i).getIdJugador());
+				stmt.executeUpdate();
+			}
 			
 			con.close();
 			

@@ -272,4 +272,35 @@ public class Jugador extends Persona {
 			System.out.println("IO Excepcion");
 		}
 	}
+	
+	public ArrayList<Jugador> crearListaJugadores(String rutaFichero, String delimitador) {
+		try {
+			ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+			
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+	
+			while((registro = fichero.readLine()) != null){
+				try {
+					// Romper la cadena registro
+					String[] campos = registro.split(delimitador);
+					jugadores.add(new Jugador(Integer.parseInt(campos[0]),campos[1],Integer.parseInt(campos[2]),Integer.parseInt(campos[3])));
+					
+				} catch (NumberFormatException e) {
+					// Ignorar líneas vacías del fichero.
+				}
+
+			}
+			
+			fichero.close();
+			return jugadores;
+				
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		
+		return null;
+	}
 }

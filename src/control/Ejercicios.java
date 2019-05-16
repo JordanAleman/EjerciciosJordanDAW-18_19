@@ -29,8 +29,7 @@ import modelo.Partido;
 //import java.util.Arrays;
 
 import modelo.Persona;
-import modelo.dao.AccesoDatos;
-//import java.util.*;
+import modelo.dao.LigaFutbol.ManejoDatos;
 
 public class Ejercicios {
 	
