@@ -30,14 +30,16 @@ class Contador{
 
 public class Partido {
 	private int idPartido;
+	private int numJornada;
 	private String equipoLocal;
 	private int golesLocal;
 	private String equipoVisitante;
 	private int golesVisitante;
 
 
-	public Partido(int idPartido, String equipoLocal, int golesLocal, String equipoVisitante, int golesVisitante) {
+	public Partido(int idPartido, int numJornada, String equipoLocal, int golesLocal, String equipoVisitante, int golesVisitante) {
 		this.idPartido = idPartido;
+		this.numJornada = numJornada;
 		this.equipoLocal = equipoLocal;
 		this.golesLocal = golesLocal;
 		this.equipoVisitante = equipoVisitante;

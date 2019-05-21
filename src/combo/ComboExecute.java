@@ -17,6 +17,8 @@ public class ComboExecute extends Application {
 	    ComboController myController = loader.getController();
 
 	    Scene scene = new Scene(root);
+	    
+        stage.setTitle("Liga Fúbol 2019");
 	    stage.setScene(scene);
 	    stage.show();
 

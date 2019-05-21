@@ -205,11 +205,11 @@ public class TablasLigaFutbol {
 				stmt.setInt(4, listaJugador.get(i).getIdEquipo());
 				stmt.executeUpdate();
 				
-				System.out.println("Insertado: IdEquipo [" + listaJugador.get(i).getIdJugador() + "] NombreCorto [" + listaJugador.get(i).getNombre() + "]");
+				//System.out.println("Insertado: IdEquipo [" + listaJugador.get(i).getIdJugador() + "] NombreCorto [" + listaJugador.get(i).getNombre() + "]");
 			}
 			
 			con.close();
-			System.out.println("Todos los elementos han sido insertado correctamente");
+			System.out.println("Todos los elementos de jugadores han sido insertado correctamente");
 			
 		} catch (SQLException ex) {
 			System.out.println("Error al insertar un dato en la base de datos");
@@ -245,5 +245,76 @@ public class TablasLigaFutbol {
 			System.out.println("Fuera de rango");
 		}
 	}
+	
+	public void insertarPartidos(String rutaFichero, String delimitador) {
+		try {
+			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+			String registro;
+			PreparedStatement stmt = null;
+			
+			try {
+				while((registro = fichero.readLine()) != null){
+					// Romper la cadena registro
+					String[] campos = registro.split(delimitador);
+					
+						stmt = con.prepareStatement("insert into partido (idPartido, numJornada, equipoLocal, golesLocal, equipoVisitante, golesVisitante) values (?,?,?,?,?,?)");
+						stmt.setInt(1, Integer.parseInt(campos[0]));
+						stmt.setInt(2, Integer.parseInt(campos[1]));
+						stmt.setString(3, campos[2]);
+						stmt.setString(5, campos[4]);
+						
+						// El siguiente if controlará si los partidos han jugado sus partidos o no. En el caso de que lo hayan jugado insertaremos sus datos tal y como están.
+						// En el caso de que no se haya jugado, los datos de sus goles los dejaremos a null.
+						if (!campos[3].equals("")) { 
+							stmt.setInt(4, Integer.parseInt(campos[3]));
+							stmt.setInt(6, Integer.parseInt(campos[5]));
+						} else {
+							stmt.setString(4, null);
+							stmt.setString(6, null);
+						}
+						
+						
+						stmt.executeUpdate();
+						// Para que la sentencia se pueda ejecutar, al tratarse de una sentencia INSERT, tenemos que finalizar con el método "executeUpdate()".
+							
+					
+				}
+				con.close();
+				
+			} catch (SQLException ex) {
+				// En el caso de que se produzca algún error al ejecutar la sentencia SQL, nos aparecerá por pantalla de esta misma consola el siguiente mensaje de error.
+				System.out.println("Error al insertar un dato en la base de datos");
 
+			} catch (NullPointerException ex) {
+				System.out.println("Fuera de rango");
+			}
+
+			fichero.close();
+			
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}
+		
+	}
+	
+	public void eliminarPartido() {
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			stmt = con.prepareStatement("delete from partido");
+			stmt.executeUpdate();
+			
+			con.close();
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al insertar un dato en la base de datos");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+	}
 }
