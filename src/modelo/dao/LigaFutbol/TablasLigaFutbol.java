@@ -194,6 +194,7 @@ public class TablasLigaFutbol {
 	
 	public void insertarListaJugadores(ArrayList<Jugador> listaJugador) {
 		PreparedStatement stmt = null;
+		int contador = 0;
 
 		try {
 			for (int i = 0; i < listaJugador.size(); i++) {
@@ -204,8 +205,11 @@ public class TablasLigaFutbol {
 				stmt.setInt(3, listaJugador.get(i).getDorsal());
 				stmt.setInt(4, listaJugador.get(i).getIdEquipo());
 				stmt.executeUpdate();
+				contador++;
 				
-				//System.out.println("Insertado: IdEquipo [" + listaJugador.get(i).getIdJugador() + "] NombreCorto [" + listaJugador.get(i).getNombre() + "]");
+				if (contador % 100 == 0) {
+					System.out.println("Insertando...");
+				}
 			}
 			
 			con.close();
@@ -289,8 +293,8 @@ public class TablasLigaFutbol {
 				System.out.println("Fuera de rango");
 			}
 
-			fichero.close();
-			
+			fichero.close();		
+			System.out.println("Tododos los elementos de partidos han sido insertados correctamente");
 			
 		} catch (FileNotFoundException e) {
 			System.out.println("Fichero no encontrado.");

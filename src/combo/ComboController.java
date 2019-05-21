@@ -16,7 +16,7 @@ public class ComboController {
 	@FXML
 	private ComboBox<Equipo> teamCombo;
 	@FXML
-	private ListView<Jugador> listPlayers;
+	private ListView<Jugador> lista;
 	
 
 	public void cargaEquipos() {
@@ -31,8 +31,9 @@ public class ComboController {
 		System.out.println(teamCombo.getValue().getIdEquipo());
 	}
 	
+	
 	public void cargaJugadoresEquipo() {
-		listPlayers.getItems().clear();
-		listPlayers.getItems().addAll(acc.getPlayersByTeam(teamCombo.getValue().getIdEquipo()));
+		lista.getItems().clear();
+		lista.getItems().addAll(acc.getPlayersByTeam(teamCombo.getValue().getIdEquipo()));
 	}
 }
