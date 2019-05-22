@@ -1,9 +1,11 @@
 package modelo.dao.LigaFutbol;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -220,10 +222,58 @@ public class TablasLigaFutbol {
 
 		} catch (NullPointerException ex) {
 			System.out.println("Fuera de rango");
-		}
-		
-		
+		}	
 			
+	}
+	
+	public void insertarJugadoresPorFichero(String rutaFichero, String delimitador) {
+		try {
+			// Al usar "InputStreamReader" también tenemos la opción de leer un fichero igual que "FileReader". Lo bueno de este que usamos ahora
+			// es que podemos pasar por parámetro por medio de "FileInputStream" una ruta de fichero y su codificación.
+			// Al ponerle codificación "utf-8" se puede conseguir leer tildes y 'ñ', entre otros caracteres.
+			BufferedReader fichero = new BufferedReader(new InputStreamReader(new FileInputStream(rutaFichero), "utf-8"));
+			String registro;
+			PreparedStatement stmt = null;
+			int contador = 0;
+			
+			try {
+				while((registro = fichero.readLine()) != null){
+					// Romper la cadena registro
+					String[] campos = registro.split(delimitador);
+					
+					stmt = con.prepareStatement("insert into jugador (idJugador, nombre, dorsal, idEquipo) values (?,?,?,?)");
+
+					stmt.setInt(1, Integer.parseInt(campos[0]));		
+					stmt.setString(2, campos[1]);
+					stmt.setInt(3, Integer.parseInt(campos[2]));
+					stmt.setInt(4, Integer.parseInt(campos[3]));
+					stmt.executeUpdate();
+					contador++;
+					
+					if (contador % 100 == 0) {
+						System.out.println("Insertando...");
+					}
+						
+					
+				}
+				con.close();
+				
+			} catch (SQLException ex) {
+				// En el caso de que se produzca algún error al ejecutar la sentencia SQL, nos aparecerá por pantalla de esta misma consola el siguiente mensaje de error.
+				System.out.println("Error al insertar un dato en la base de datos");
+
+			} catch (NullPointerException ex) {
+				System.out.println("Fuera de rango");
+			}
+
+			fichero.close();		
+			System.out.println("Tododos los elementos de jugadores han sido insertados correctamente");
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado.");
+		} catch (IOException e) {
+			System.out.println("IO Excepcion");
+		}	
 			
 	}
 	
@@ -249,6 +299,25 @@ public class TablasLigaFutbol {
 			System.out.println("Fuera de rango");
 		}
 	}
+	
+	public void eliminarJugadores() {
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			stmt = con.prepareStatement("delete from jugador");
+			stmt.executeUpdate();
+			
+			con.close();
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al insertar un dato en la base de datos");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+	}
+	
 	
 	public void insertarPartidos(String rutaFichero, String delimitador) {
 		try {

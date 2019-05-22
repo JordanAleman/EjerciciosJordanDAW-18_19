@@ -19,8 +19,10 @@ public class ManejoDatos {
 //		new TablasLigaFutbol().eliminarListaEquipo(listaEquipos);
 //		new TablasLigaFutbol().insertarListaEquipo(listaEquipos);
 		
-		new TablasLigaFutbol().eliminarListaJugadores(listaJugador);
-		new TablasLigaFutbol().insertarListaJugadores(listaJugador);
+		new TablasLigaFutbol().eliminarJugadores();
+		
+//		new TablasLigaFutbol().insertarListaJugadores(listaJugador);
+		new TablasLigaFutbol().insertarJugadoresPorFichero("ficheros/jugadores.txt","#");
 		
 //		new TablasLigaFutbol().eliminarPartido();
 //		new TablasLigaFutbol().insertarPartidos("ficheros/partidos.txt","#");
