@@ -1,8 +1,5 @@
 package combo;
 
-import java.awt.Button;
-import java.io.File;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;

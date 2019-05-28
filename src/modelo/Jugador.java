@@ -56,8 +56,8 @@ public class Jugador extends Persona {
 	
 	@Override
 	public String toString() {
-		return "Id jugador: " +getIdJugador() + ", Id equipo: " + getIdEquipo() 
-		+ ", Dorsal: " + getDorsal() + ", Nombre jugador: " + getNombre() + "]";
+		return "Nombre jugador: [" + getNombre() + "]" + "\nId jugador: " +getIdJugador() + ", Id equipo: " + getIdEquipo() 
+		+ ", Dorsal: " + getDorsal();
 	}
 
 	// 23 de Febrero del 2019 -- Comprobar que los jugadores de "fichero/jugadores.txt" están todos correctos

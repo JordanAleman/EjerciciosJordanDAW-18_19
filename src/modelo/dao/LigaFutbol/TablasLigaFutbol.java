@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import control.BaseDatos;
 import modelo.Equipo;
@@ -24,7 +26,10 @@ public class TablasLigaFutbol {
 		con = conexion.getConnection();
 	}
 	
+	
+// --------------------------------------------------- Tabla Equipo ---------------------------------------------------------------------------------------------------------------
 
+	
 	public void insertarEquipo(Equipo equipo) {
 	// Este método insertará todos los equipos de la liga de fútbol que se pasen por parámetro
 	// La idea es insertar cada uno de los atributos de Equipo dentro de la tabla Equipo que tenemos creada en nuestra Base de Datos MySQL llamada "ligafutbol".
@@ -62,7 +67,7 @@ public class TablasLigaFutbol {
 			// Para que la sentencia se pueda ejecutar, al tratarse de una sentencia INSERT, tenemos que finalizar con el método "executeUpdate()".
 			con.close();
 			
-			System.out.println("Todos los elementos han sido insertado correctamente");
+			System.out.println("El elemento de la tabla 'Equipo' ha sido insertado correctamente");
 
 		} catch (SQLException ex) {
 		// En el caso de que se produzca algún error al ejecutar la sentencia SQL, nos aparecerá por pantalla de esta misma consola el siguiente mensaje de error.
@@ -82,32 +87,35 @@ public class TablasLigaFutbol {
 
 			try {
 				for (int i = 0; i < listaEquipo.size(); i++) {
-					stmt = con.prepareStatement("insert into equipo (idEquipo, nombreCorto, nombreEquipo, Puntos, GolesFavor, GolesContra, Victoria, Empate, Derrota) values (?,?,?,?,?,?,?,?,?)");
+//					stmt = con.prepareStatement("insert into equipo (idEquipo, nombreCorto, nombreEquipo, Puntos, GolesFavor, GolesContra, Victoria, Empate, Derrota) values (?,?,?,?,?,?,?,?,?)");
 
+					stmt = con.prepareStatement("insert into equipo (idEquipo, nombreCorto, nombreEquipo) values (?,?,?)");
+					
 					stmt.setInt(1, listaEquipo.get(i).getIdEquipo());		
 					stmt.setString(2, listaEquipo.get(i).getNombreCorto());
 					stmt.setString(3, listaEquipo.get(i).getNombreEquipo());
-					stmt.setInt(4, listaEquipo.get(i).getPuntos());
-					stmt.setInt(5, listaEquipo.get(i).getGolesFavor());
-					stmt.setInt(6, listaEquipo.get(i).getGolesContra());
-					stmt.setInt(7, listaEquipo.get(i).getVictoria()); 
-					stmt.setInt(8, listaEquipo.get(i).getEmpate());
-					stmt.setInt(9, listaEquipo.get(i).getDerrota());
+//					stmt.setInt(4, listaEquipo.get(i).getPuntos());
+//					stmt.setInt(5, listaEquipo.get(i).getGolesFavor());
+//					stmt.setInt(6, listaEquipo.get(i).getGolesContra());
+//					stmt.setInt(7, listaEquipo.get(i).getVictoria()); 
+//					stmt.setInt(8, listaEquipo.get(i).getEmpate());
+//					stmt.setInt(9, listaEquipo.get(i).getDerrota());
 					stmt.executeUpdate();
 					
 					System.out.println("Insertado: IdEquipo [" + listaEquipo.get(i).getIdEquipo() + "] NombreCorto [" + listaEquipo.get(i).getNombreCorto() + "]");
 				}
 				
 				con.close();
+				System.out.println("Todos los elementos de la tabla 'Equipo' han sido insertados correctamente");
+
 				
 			} catch (SQLException ex) {
-				System.out.println("Error al insertar un dato en la base de datos");
+				System.out.println("Error al insertar un dato en la tabla 'Equipo' de la base de datos");
 
 			} catch (NullPointerException ex) {
 				System.out.println("Fuera de rango");
 			}
 			
-			System.out.println("Todos los elementos han sido insertado correctamente");
 		}
 	
 	public void insertarEquipoDatosBasicosDesdeFichero() {
@@ -193,6 +201,10 @@ public class TablasLigaFutbol {
 			System.out.println("Fuera de rango");
 		}
 	}
+
+	
+// --------------------------------------------------- Tabla Jugador ---------------------------------------------------------------------------------------------------------------
+	
 	
 	public void insertarListaJugadores(ArrayList<Jugador> listaJugador) {
 		PreparedStatement stmt = null;
@@ -319,6 +331,9 @@ public class TablasLigaFutbol {
 	}
 	
 	
+// --------------------------------------------------- Tabla Partido ---------------------------------------------------------------------------------------------------------------
+	
+	
 	public void insertarPartidos(String rutaFichero, String delimitador) {
 		try {
 			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
@@ -390,4 +405,79 @@ public class TablasLigaFutbol {
 			System.out.println("Fuera de rango");
 		}
 	}
+	
+	
+// --------------------------------------------------- Tabla Clasificación ---------------------------------------------------------------------------------------------------------------
+	
+	
+	public void insertarClasificacion(ArrayList<Equipo> listaEquipo) {
+		// En el caso de que se mande directamente una lista con todos los equipos, haremos todas las inserciones directamente desde un sólo método.
+		
+		PreparedStatement stmt = null;
+		
+		Collections.sort(listaEquipo, new Comparator<Equipo>() {
+			   public int compare(Equipo obj1, Equipo obj2) {
+			      if(obj1.getPuntos() > obj2.getPuntos()) {
+			    	  return "0".compareTo("1");
+			      } else if(obj1.getPuntos() < obj2.getPuntos()) {
+			    	  return "1".compareTo("0");
+			      } else {
+			    	  return Integer.toString(obj1.getPuntos()).compareTo(Integer.toString(obj1.getPuntos()));
+			      }
+			     
+			   }
+		});
+		
+//		for (int i = 0; i < listaEquipo.size(); i++) {
+//			System.out.println("IdEquipo: " + listaEquipo.get(i).getIdEquipo() + " Puntos: [" + listaEquipo.get(i).getPuntos() + "] Nombre: [" + listaEquipo.get(i).getNombreCorto() + "] NombreEquipo: " + listaEquipo.get(i).getNombreEquipo());
+//		}
+
+		try {
+			for (int i = 0; i < listaEquipo.size(); i++) {
+				stmt = con.prepareStatement("insert into clasificacion (idEquipo, nombreCorto, nombreEquipo, Puntos, GolesFavor, GolesContra, Victoria, Empate, Derrota) values (?,?,?,?,?,?,?,?,?)");
+				
+				stmt.setInt(1, listaEquipo.get(i).getIdEquipo());		
+				stmt.setString(2, listaEquipo.get(i).getNombreCorto());
+				stmt.setString(3, listaEquipo.get(i).getNombreEquipo());
+				stmt.setInt(4, listaEquipo.get(i).getPuntos());
+				stmt.setInt(5, listaEquipo.get(i).getGolesFavor());
+				stmt.setInt(6, listaEquipo.get(i).getGolesContra());
+				stmt.setInt(7, listaEquipo.get(i).getVictoria()); 
+				stmt.setInt(8, listaEquipo.get(i).getEmpate());
+				stmt.setInt(9, listaEquipo.get(i).getDerrota());
+				stmt.executeUpdate();
+				
+			}
+			
+			con.close();
+			System.out.println("Todos los elementos de la tabla 'Clasificacion' han sido insertado correctamente");
+			
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al insertar un dato en la tabla 'Clasificacion' de la base de datos");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+		
+	}
+	
+	public void eliminarClasificacion() {
+		PreparedStatement stmt = null;
+		
+		try {
+			
+			stmt = con.prepareStatement("delete from clasificacion");
+			stmt.executeUpdate();
+			
+			con.close();
+			
+		} catch (SQLException ex) {
+			System.out.println("Error al eliminar un dato en la base de datos. Puede que la tabla 'Clasificacion' ya estuviera vacía");
+
+		} catch (NullPointerException ex) {
+			System.out.println("Fuera de rango");
+		}
+	}
+
 }

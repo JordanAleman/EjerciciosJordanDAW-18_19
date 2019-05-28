@@ -1,35 +1,24 @@
 package control;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 import modelo.Equipo;
-//import modelo.Equipo;
 import modelo.Estudiante;
-import modelo.Jugador;
-import modelo.Partido;
-
-//import java.util.Arrays;
 
 import modelo.Persona;
-import modelo.dao.LigaFutbol.ManejoDatos;
 
 public class Ejercicios {
 	

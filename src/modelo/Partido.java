@@ -62,6 +62,16 @@ public class Partido {
 	}
 
 
+	public int getNumJornada() {
+		return numJornada;
+	}
+
+
+	public void setNumJornada(int numJornada) {
+		this.numJornada = numJornada;
+	}
+
+
 	public String getEquipoLocal() {
 		return equipoLocal;
 	}
