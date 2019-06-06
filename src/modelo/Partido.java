@@ -134,6 +134,7 @@ public class Partido {
 						mapaEquipos.put(campos[i], new Integer(1));
 						equipos.add(campos[i]);
 					} else {
+					
 						mapaEquipos.replace(campos[i], Integer.sum(mapaEquipos.get(campos[i]), 1));				
 					}
 				}

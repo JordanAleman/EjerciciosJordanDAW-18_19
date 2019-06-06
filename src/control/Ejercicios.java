@@ -21,6 +21,29 @@ import modelo.Estudiante;
 import modelo.Persona;
 
 public class Ejercicios {
+//	Esqueleto lectura ficheros
+//	public ArrayList<String[]> listadoMovimientos(String rutaFichero, String delimitador){
+//		try {
+//			BufferedReader fichero = new BufferedReader(new FileReader(rutaFichero));
+//			String registro;
+//
+//			
+//			while((registro = fichero.readLine()) != null){
+//				// Romper la cadena registro
+//				String[] campos = registro.split(delimitador);
+//
+//			}
+//
+//			fichero.close();
+//			return null;
+//			
+//		} catch (FileNotFoundException e) {
+//			System.out.println("Fichero no encontrado.");
+//		} catch (IOException e) {
+//			System.out.println("IO Excepcion");
+//		}
+//		return null;
+//	}
 	
 	// ==================================
 	// 				Método	
